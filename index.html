@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Mastery · Analytics Dashboard</title>
+    <title>PHP Mastery · Complete Quiz (60 Questions)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* ---------- THEME VARIABLES ---------- */
+        /* ---------- MONOCHROME THEME WITH DARK/LIGHT TOGGLE ---------- */
         :root {
             /* Light theme (default) */
             --bg-primary: #f8fafc;
@@ -777,7 +777,7 @@
             <div class="title-section">
                 <div>
                     <h1 class="title">PHP Mastery</h1>
-                    <p class="subtitle">File Processing & Error Handling · Analytics Dashboard</p>
+                    <p class="subtitle">File Processing & Error Handling · 60 Questions</p>
                 </div>
             </div>
             
@@ -860,9 +860,958 @@
             </div>
         </div>
 
-        <!-- Sections -->
-        <div id="quizContent">
-            <!-- Sections will be populated by JavaScript -->
+        <!-- ALL 60 QUESTIONS - Section 1: Pre-defined Functions (1-15) -->
+        <div class="section-header">
+            <div class="section-icon"><i class="fas fa-code"></i></div>
+            <h2 class="section-title">Pre-defined Functions</h2>
+            <span class="section-badge">1-15</span>
+        </div>
+        
+        <div id="section1">
+            <!-- Question 1 -->
+            <div class="question-card" data-question="q1">
+                <div class="question-header">
+                    <div class="question-number">1</div>
+                    <div class="question-text">What is the correct syntax for the date() function?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q1" value="A"><span class="option-marker"></span><span class="option-text">A) date(timestamp, format)</span></label>
+                    <label class="option-item"><input type="radio" name="q1" value="B"><span class="option-marker"></span><span class="option-text">B) date(format, timestamp)</span></label>
+                    <label class="option-item"><input type="radio" name="q1" value="C"><span class="option-marker"></span><span class="option-text">C) date(format)</span></label>
+                    <label class="option-item"><input type="radio" name="q1" value="D"><span class="option-marker"></span><span class="option-text">D) Both B and C are correct</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-card" data-question="q2">
+                <div class="question-header">
+                    <div class="question-number">2</div>
+                    <div class="question-text">Which format character represents a 4-digit year in the date() function?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q2" value="A"><span class="option-marker"></span><span class="option-text">A) y</span></label>
+                    <label class="option-item"><input type="radio" name="q2" value="B"><span class="option-marker"></span><span class="option-text">B) Y</span></label>
+                    <label class="option-item"><input type="radio" name="q2" value="C"><span class="option-marker"></span><span class="option-text">C) YYYY</span></label>
+                    <label class="option-item"><input type="radio" name="q2" value="D"><span class="option-marker"></span><span class="option-text">D) year</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-card" data-question="q3">
+                <div class="question-header">
+                    <div class="question-number">3</div>
+                    <div class="question-text">What does mktime(15, 30, 0, 12, 25, 2024) return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q3" value="A"><span class="option-marker"></span><span class="option-text">A) A formatted date string</span></label>
+                    <label class="option-item"><input type="radio" name="q3" value="B"><span class="option-marker"></span><span class="option-text">B) A Unix timestamp</span></label>
+                    <label class="option-item"><input type="radio" name="q3" value="C"><span class="option-marker"></span><span class="option-text">C) An array of date components</span></label>
+                    <label class="option-item"><input type="radio" name="q3" value="D"><span class="option-marker"></span><span class="option-text">D) A DateTime object</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-card" data-question="q4">
+                <div class="question-header">
+                    <div class="question-number">4</div>
+                    <div class="question-text">Which function removes whitespace from BOTH sides of a string?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q4" value="A"><span class="option-marker"></span><span class="option-text">A) strip()</span></label>
+                    <label class="option-item"><input type="radio" name="q4" value="B"><span class="option-marker"></span><span class="option-text">B) trim()</span></label>
+                    <label class="option-item"><input type="radio" name="q4" value="C"><span class="option-marker"></span><span class="option-text">C) clean()</span></label>
+                    <label class="option-item"><input type="radio" name="q4" value="D"><span class="option-marker"></span><span class="option-text">D) remove_spaces()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-card" data-question="q5">
+                <div class="question-header">
+                    <div class="question-number">5</div>
+                    <div class="question-text">What does ltrim() do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q5" value="A"><span class="option-marker"></span><span class="option-text">A) Removes whitespace from the left side only</span></label>
+                    <label class="option-item"><input type="radio" name="q5" value="B"><span class="option-marker"></span><span class="option-text">B) Removes whitespace from both sides</span></label>
+                    <label class="option-item"><input type="radio" name="q5" value="C"><span class="option-marker"></span><span class="option-text">C) Converts string to lowercase and trims</span></label>
+                    <label class="option-item"><input type="radio" name="q5" value="D"><span class="option-marker"></span><span class="option-text">D) Removes whitespace from the right side only</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-card" data-question="q6">
+                <div class="question-header">
+                    <div class="question-number">6</div>
+                    <div class="question-text">What does explode(",", "a,b,c") return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q6" value="A"><span class="option-marker"></span><span class="option-text">A) "abc"</span></label>
+                    <label class="option-item"><input type="radio" name="q6" value="B"><span class="option-marker"></span><span class="option-text">B) ["a", "b", "c"]</span></label>
+                    <label class="option-item"><input type="radio" name="q6" value="C"><span class="option-marker"></span><span class="option-text">C) "a b c"</span></label>
+                    <label class="option-item"><input type="radio" name="q6" value="D"><span class="option-marker"></span><span class="option-text">D) ["a,b,c"]</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-card" data-question="q7">
+                <div class="question-header">
+                    <div class="question-number">7</div>
+                    <div class="question-text">What is the output of: implode("-", ["A", "B", "C"])?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q7" value="A"><span class="option-marker"></span><span class="option-text">A) ["A-B-C"]</span></label>
+                    <label class="option-item"><input type="radio" name="q7" value="B"><span class="option-marker"></span><span class="option-text">B) "A-B-C"</span></label>
+                    <label class="option-item"><input type="radio" name="q7" value="C"><span class="option-marker"></span><span class="option-text">C) "ABC"</span></label>
+                    <label class="option-item"><input type="radio" name="q7" value="D"><span class="option-marker"></span><span class="option-text">D) A-B-C</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-card" data-question="q8">
+                <div class="question-header">
+                    <div class="question-number">8</div>
+                    <div class="question-text">What does strcasecmp("Hello", "hello") return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q8" value="A"><span class="option-marker"></span><span class="option-text">A) true</span></label>
+                    <label class="option-item"><input type="radio" name="q8" value="B"><span class="option-marker"></span><span class="option-text">B) false</span></label>
+                    <label class="option-item"><input type="radio" name="q8" value="C"><span class="option-marker"></span><span class="option-text">C) 0</span></label>
+                    <label class="option-item"><input type="radio" name="q8" value="D"><span class="option-marker"></span><span class="option-text">D) 1</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question-card" data-question="q9">
+                <div class="question-header">
+                    <div class="question-number">9</div>
+                    <div class="question-text">What does strlen("Hello") return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q9" value="A"><span class="option-marker"></span><span class="option-text">A) 4</span></label>
+                    <label class="option-item"><input type="radio" name="q9" value="B"><span class="option-marker"></span><span class="option-text">B) 5</span></label>
+                    <label class="option-item"><input type="radio" name="q9" value="C"><span class="option-marker"></span><span class="option-text">C) 6</span></label>
+                    <label class="option-item"><input type="radio" name="q9" value="D"><span class="option-marker"></span><span class="option-text">D) "Hello"</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question-card" data-question="q10">
+                <div class="question-header">
+                    <div class="question-number">10</div>
+                    <div class="question-text">Which function converts a string to lowercase?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q10" value="A"><span class="option-marker"></span><span class="option-text">A) lowercase()</span></label>
+                    <label class="option-item"><input type="radio" name="q10" value="B"><span class="option-marker"></span><span class="option-text">B) toLower()</span></label>
+                    <label class="option-item"><input type="radio" name="q10" value="C"><span class="option-marker"></span><span class="option-text">C) strtolower()</span></label>
+                    <label class="option-item"><input type="radio" name="q10" value="D"><span class="option-marker"></span><span class="option-text">D) str_lower()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question-card" data-question="q11">
+                <div class="question-header">
+                    <div class="question-number">11</div>
+                    <div class="question-text">What does strtoupper("hello") return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q11" value="A"><span class="option-marker"></span><span class="option-text">A) "hello"</span></label>
+                    <label class="option-item"><input type="radio" name="q11" value="B"><span class="option-marker"></span><span class="option-text">B) "HELLO"</span></label>
+                    <label class="option-item"><input type="radio" name="q11" value="C"><span class="option-marker"></span><span class="option-text">C) "Hello"</span></label>
+                    <label class="option-item"><input type="radio" name="q11" value="D"><span class="option-marker"></span><span class="option-text">D) true</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 12 -->
+            <div class="question-card" data-question="q12">
+                <div class="question-header">
+                    <div class="question-number">12</div>
+                    <div class="question-text">How many parameters does str_replace() require at minimum?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q12" value="A"><span class="option-marker"></span><span class="option-text">A) 1</span></label>
+                    <label class="option-item"><input type="radio" name="q12" value="B"><span class="option-marker"></span><span class="option-text">B) 2</span></label>
+                    <label class="option-item"><input type="radio" name="q12" value="C"><span class="option-marker"></span><span class="option-text">C) 3</span></label>
+                    <label class="option-item"><input type="radio" name="q12" value="D"><span class="option-marker"></span><span class="option-text">D) 4</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 13 -->
+            <div class="question-card" data-question="q13">
+                <div class="question-header">
+                    <div class="question-number">13</div>
+                    <div class="question-text">What is the output of: str_replace("a", "o", "banana")?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q13" value="A"><span class="option-marker"></span><span class="option-text">A) "banana"</span></label>
+                    <label class="option-item"><input type="radio" name="q13" value="B"><span class="option-marker"></span><span class="option-text">B) "bonono"</span></label>
+                    <label class="option-item"><input type="radio" name="q13" value="C"><span class="option-marker"></span><span class="option-text">C) "banono"</span></label>
+                    <label class="option-item"><input type="radio" name="q13" value="D"><span class="option-marker"></span><span class="option-text">D) "bonana"</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 14 -->
+            <div class="question-card" data-question="q14">
+                <div class="question-header">
+                    <div class="question-number">14</div>
+                    <div class="question-text">What does htmlentities() do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q14" value="A"><span class="option-marker"></span><span class="option-text">A) Removes HTML tags</span></label>
+                    <label class="option-item"><input type="radio" name="q14" value="B"><span class="option-marker"></span><span class="option-text">B) Converts special characters to HTML entities</span></label>
+                    <label class="option-item"><input type="radio" name="q14" value="C"><span class="option-marker"></span><span class="option-text">C) Creates HTML elements</span></label>
+                    <label class="option-item"><input type="radio" name="q14" value="D"><span class="option-marker"></span><span class="option-text">D) Validates HTML code</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 15 -->
+            <div class="question-card" data-question="q15">
+                <div class="question-header">
+                    <div class="question-number">15</div>
+                    <div class="question-text">What does stripslashes("It\'s") return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q15" value="A"><span class="option-marker"></span><span class="option-text">A) "It\'s"</span></label>
+                    <label class="option-item"><input type="radio" name="q15" value="B"><span class="option-marker"></span><span class="option-text">B) "It's"</span></label>
+                    <label class="option-item"><input type="radio" name="q15" value="C"><span class="option-marker"></span><span class="option-text">C) "Its"</span></label>
+                    <label class="option-item"><input type="radio" name="q15" value="D"><span class="option-marker"></span><span class="option-text">D) "It\s"</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Section 2: File Processing Functions (16-30) -->
+        <div class="section-header">
+            <div class="section-icon"><i class="fas fa-file-code"></i></div>
+            <h2 class="section-title">File Processing Functions</h2>
+            <span class="section-badge">16-30</span>
+        </div>
+        
+        <div id="section2">
+            <!-- Question 16 -->
+            <div class="question-card" data-question="q16">
+                <div class="question-header">
+                    <div class="question-number">16</div>
+                    <div class="question-text">What does is_file() check?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q16" value="A"><span class="option-marker"></span><span class="option-text">A) If a file exists</span></label>
+                    <label class="option-item"><input type="radio" name="q16" value="B"><span class="option-marker"></span><span class="option-text">B) If a path is a regular file</span></label>
+                    <label class="option-item"><input type="radio" name="q16" value="C"><span class="option-marker"></span><span class="option-text">C) If a file is readable</span></label>
+                    <label class="option-item"><input type="radio" name="q16" value="D"><span class="option-marker"></span><span class="option-text">D) If a file is writable</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 17 -->
+            <div class="question-card" data-question="q17">
+                <div class="question-header">
+                    <div class="question-number">17</div>
+                    <div class="question-text">What does file_exists() return if the file is found?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q17" value="A"><span class="option-marker"></span><span class="option-text">A) The file size</span></label>
+                    <label class="option-item"><input type="radio" name="q17" value="B"><span class="option-marker"></span><span class="option-text">B) true</span></label>
+                    <label class="option-item"><input type="radio" name="q17" value="C"><span class="option-marker"></span><span class="option-text">C) The file path</span></label>
+                    <label class="option-item"><input type="radio" name="q17" value="D"><span class="option-marker"></span><span class="option-text">D) 1</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 18 -->
+            <div class="question-card" data-question="q18">
+                <div class="question-header">
+                    <div class="question-number">18</div>
+                    <div class="question-text">Which mode opens a file for reading only?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q18" value="A"><span class="option-marker"></span><span class="option-text">A) "w"</span></label>
+                    <label class="option-item"><input type="radio" name="q18" value="B"><span class="option-marker"></span><span class="option-text">B) "a"</span></label>
+                    <label class="option-item"><input type="radio" name="q18" value="C"><span class="option-marker"></span><span class="option-text">C) "r"</span></label>
+                    <label class="option-item"><input type="radio" name="q18" value="D"><span class="option-marker"></span><span class="option-text">D) "x"</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 19 -->
+            <div class="question-card" data-question="q19">
+                <div class="question-header">
+                    <div class="question-number">19</div>
+                    <div class="question-text">Which fopen() mode overwrites existing content?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q19" value="A"><span class="option-marker"></span><span class="option-text">A) "r"</span></label>
+                    <label class="option-item"><input type="radio" name="q19" value="B"><span class="option-marker"></span><span class="option-text">B) "w"</span></label>
+                    <label class="option-item"><input type="radio" name="q19" value="C"><span class="option-marker"></span><span class="option-text">C) "a"</span></label>
+                    <label class="option-item"><input type="radio" name="q19" value="D"><span class="option-marker"></span><span class="option-text">D) "r+"</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 20 -->
+            <div class="question-card" data-question="q20">
+                <div class="question-header">
+                    <div class="question-number">20</div>
+                    <div class="question-text">Which mode appends data to the end of a file?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q20" value="A"><span class="option-marker"></span><span class="option-text">A) "w"</span></label>
+                    <label class="option-item"><input type="radio" name="q20" value="B"><span class="option-marker"></span><span class="option-text">B) "r+"</span></label>
+                    <label class="option-item"><input type="radio" name="q20" value="C"><span class="option-marker"></span><span class="option-text">C) "a"</span></label>
+                    <label class="option-item"><input type="radio" name="q20" value="D"><span class="option-marker"></span><span class="option-text">D) "w+"</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 21 -->
+            <div class="question-card" data-question="q21">
+                <div class="question-header">
+                    <div class="question-number">21</div>
+                    <div class="question-text">What does fwrite() do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q21" value="A"><span class="option-marker"></span><span class="option-text">A) Reads from a file</span></label>
+                    <label class="option-item"><input type="radio" name="q21" value="B"><span class="option-marker"></span><span class="option-text">B) Writes to a file</span></label>
+                    <label class="option-item"><input type="radio" name="q21" value="C"><span class="option-marker"></span><span class="option-text">C) Closes a file</span></label>
+                    <label class="option-item"><input type="radio" name="q21" value="D"><span class="option-marker"></span><span class="option-text">D) Deletes a file</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 22 -->
+            <div class="question-card" data-question="q22">
+                <div class="question-header">
+                    <div class="question-number">22</div>
+                    <div class="question-text">Why is fclose() important?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q22" value="A"><span class="option-marker"></span><span class="option-text">A) It saves the file</span></label>
+                    <label class="option-item"><input type="radio" name="q22" value="B"><span class="option-marker"></span><span class="option-text">B) It releases file resources</span></label>
+                    <label class="option-item"><input type="radio" name="q22" value="C"><span class="option-marker"></span><span class="option-text">C) It validates the file</span></label>
+                    <label class="option-item"><input type="radio" name="q22" value="D"><span class="option-marker"></span><span class="option-text">D) It creates a backup</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 23 -->
+            <div class="question-card" data-question="q23">
+                <div class="question-header">
+                    <div class="question-number">23</div>
+                    <div class="question-text">What does fgets() read?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q23" value="A"><span class="option-marker"></span><span class="option-text">A) The entire file</span></label>
+                    <label class="option-item"><input type="radio" name="q23" value="B"><span class="option-marker"></span><span class="option-text">B) One line from a file</span></label>
+                    <label class="option-item"><input type="radio" name="q23" value="C"><span class="option-marker"></span><span class="option-text">C) One character</span></label>
+                    <label class="option-item"><input type="radio" name="q23" value="D"><span class="option-marker"></span><span class="option-text">D) A specific number of bytes</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 24 -->
+            <div class="question-card" data-question="q24">
+                <div class="question-header">
+                    <div class="question-number">24</div>
+                    <div class="question-text">Which function copies a file?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q24" value="A"><span class="option-marker"></span><span class="option-text">A) copy()</span></label>
+                    <label class="option-item"><input type="radio" name="q24" value="B"><span class="option-marker"></span><span class="option-text">B) duplicate()</span></label>
+                    <label class="option-item"><input type="radio" name="q24" value="C"><span class="option-marker"></span><span class="option-text">C) clone()</span></label>
+                    <label class="option-item"><input type="radio" name="q24" value="D"><span class="option-marker"></span><span class="option-text">D) fcopy()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 25 -->
+            <div class="question-card" data-question="q25">
+                <div class="question-header">
+                    <div class="question-number">25</div>
+                    <div class="question-text">Which function deletes a file?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q25" value="A"><span class="option-marker"></span><span class="option-text">A) delete()</span></label>
+                    <label class="option-item"><input type="radio" name="q25" value="B"><span class="option-marker"></span><span class="option-text">B) remove()</span></label>
+                    <label class="option-item"><input type="radio" name="q25" value="C"><span class="option-marker"></span><span class="option-text">C) unlink()</span></label>
+                    <label class="option-item"><input type="radio" name="q25" value="D"><span class="option-marker"></span><span class="option-text">D) drop()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 26 -->
+            <div class="question-card" data-question="q26">
+                <div class="question-header">
+                    <div class="question-number">26</div>
+                    <div class="question-text">What does file_get_contents() return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q26" value="A"><span class="option-marker"></span><span class="option-text">A) An array of lines</span></label>
+                    <label class="option-item"><input type="radio" name="q26" value="B"><span class="option-marker"></span><span class="option-text">B) A file pointer</span></label>
+                    <label class="option-item"><input type="radio" name="q26" value="C"><span class="option-marker"></span><span class="option-text">C) The entire file as a string</span></label>
+                    <label class="option-item"><input type="radio" name="q26" value="D"><span class="option-marker"></span><span class="option-text">D) The file size</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 27 -->
+            <div class="question-card" data-question="q27">
+                <div class="question-header">
+                    <div class="question-number">27</div>
+                    <div class="question-text">Can file_get_contents() read from URLs?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q27" value="A"><span class="option-marker"></span><span class="option-text">A) Yes</span></label>
+                    <label class="option-item"><input type="radio" name="q27" value="B"><span class="option-marker"></span><span class="option-text">B) No</span></label>
+                    <label class="option-item"><input type="radio" name="q27" value="C"><span class="option-marker"></span><span class="option-text">C) Only with special configuration</span></label>
+                    <label class="option-item"><input type="radio" name="q27" value="D"><span class="option-marker"></span><span class="option-text">D) Only HTTP, not HTTPS</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 28 -->
+            <div class="question-card" data-question="q28">
+                <div class="question-header">
+                    <div class="question-number">28</div>
+                    <div class="question-text">Which function reads entire file into an array (one line per element)?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q28" value="A"><span class="option-marker"></span><span class="option-text">A) file_array()</span></label>
+                    <label class="option-item"><input type="radio" name="q28" value="B"><span class="option-marker"></span><span class="option-text">B) file()</span></label>
+                    <label class="option-item"><input type="radio" name="q28" value="C"><span class="option-marker"></span><span class="option-text">C) read_file()</span></label>
+                    <label class="option-item"><input type="radio" name="q28" value="D"><span class="option-marker"></span><span class="option-text">D) file_to_array()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 29 -->
+            <div class="question-card" data-question="q29">
+                <div class="question-header">
+                    <div class="question-number">29</div>
+                    <div class="question-text">What does file_put_contents() do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q29" value="A"><span class="option-marker"></span><span class="option-text">A) Reads file content</span></label>
+                    <label class="option-item"><input type="radio" name="q29" value="B"><span class="option-marker"></span><span class="option-text">B) Writes data to a file</span></label>
+                    <label class="option-item"><input type="radio" name="q29" value="C"><span class="option-marker"></span><span class="option-text">C) Deletes a file</span></label>
+                    <label class="option-item"><input type="radio" name="q29" value="D"><span class="option-marker"></span><span class="option-text">D) Copies a file</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 30 -->
+            <div class="question-card" data-question="q30">
+                <div class="question-header">
+                    <div class="question-number">30</div>
+                    <div class="question-text">Which flag makes file_put_contents() append instead of overwrite?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q30" value="A"><span class="option-marker"></span><span class="option-text">A) FILE_ADD</span></label>
+                    <label class="option-item"><input type="radio" name="q30" value="B"><span class="option-marker"></span><span class="option-text">B) FILE_APPEND</span></label>
+                    <label class="option-item"><input type="radio" name="q30" value="C"><span class="option-marker"></span><span class="option-text">C) APPEND_MODE</span></label>
+                    <label class="option-item"><input type="radio" name="q30" value="D"><span class="option-marker"></span><span class="option-text">D) FILE_WRITE</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Section 3: File Creation (31-38) -->
+        <div class="section-header">
+            <div class="section-icon"><i class="fas fa-file-alt"></i></div>
+            <h2 class="section-title">File Creation</h2>
+            <span class="section-badge">31-38</span>
+        </div>
+        
+        <div id="section3">
+            <!-- Question 31 -->
+            <div class="question-card" data-question="q31">
+                <div class="question-header">
+                    <div class="question-number">31</div>
+                    <div class="question-text">Which function is simplest for creating a text file with content?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q31" value="A"><span class="option-marker"></span><span class="option-text">A) fwrite()</span></label>
+                    <label class="option-item"><input type="radio" name="q31" value="B"><span class="option-marker"></span><span class="option-text">B) file_put_contents()</span></label>
+                    <label class="option-item"><input type="radio" name="q31" value="C"><span class="option-marker"></span><span class="option-text">C) fopen()</span></label>
+                    <label class="option-item"><input type="radio" name="q31" value="D"><span class="option-marker"></span><span class="option-text">D) create_file()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 32 -->
+            <div class="question-card" data-question="q32">
+                <div class="question-header">
+                    <div class="question-number">32</div>
+                    <div class="question-text">Which function writes a CSV line to a file?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q32" value="A"><span class="option-marker"></span><span class="option-text">A) fwrite()</span></label>
+                    <label class="option-item"><input type="radio" name="q32" value="B"><span class="option-marker"></span><span class="option-text">B) fputcsv()</span></label>
+                    <label class="option-item"><input type="radio" name="q32" value="C"><span class="option-marker"></span><span class="option-text">C) write_csv()</span></label>
+                    <label class="option-item"><input type="radio" name="q32" value="D"><span class="option-marker"></span><span class="option-text">D) csv_write()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 33 -->
+            <div class="question-card" data-question="q33">
+                <div class="question-header">
+                    <div class="question-number">33</div>
+                    <div class="question-text">What library is mentioned for creating Word documents?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q33" value="A"><span class="option-marker"></span><span class="option-text">A) PHPWord</span></label>
+                    <label class="option-item"><input type="radio" name="q33" value="B"><span class="option-marker"></span><span class="option-text">B) WordPHP</span></label>
+                    <label class="option-item"><input type="radio" name="q33" value="C"><span class="option-marker"></span><span class="option-text">C) DocCreator</span></label>
+                    <label class="option-item"><input type="radio" name="q33" value="D"><span class="option-marker"></span><span class="option-text">D) PHPDocument</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 34 -->
+            <div class="question-card" data-question="q34">
+                <div class="question-header">
+                    <div class="question-number">34</div>
+                    <div class="question-text">What library is mentioned for creating PDF files?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q34" value="A"><span class="option-marker"></span><span class="option-text">A) PDFPHP</span></label>
+                    <label class="option-item"><input type="radio" name="q34" value="B"><span class="option-marker"></span><span class="option-text">B) PHPToPDF</span></label>
+                    <label class="option-item"><input type="radio" name="q34" value="C"><span class="option-marker"></span><span class="option-text">C) FPDF</span></label>
+                    <label class="option-item"><input type="radio" name="q34" value="D"><span class="option-marker"></span><span class="option-text">D) PDFLib</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 35 -->
+            <div class="question-card" data-question="q35">
+                <div class="question-header">
+                    <div class="question-number">35</div>
+                    <div class="question-text">What does BOM stand for in CSV files?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q35" value="A"><span class="option-marker"></span><span class="option-text">A) Beginning Of Message</span></label>
+                    <label class="option-item"><input type="radio" name="q35" value="B"><span class="option-marker"></span><span class="option-text">B) Byte Order Mark</span></label>
+                    <label class="option-item"><input type="radio" name="q35" value="C"><span class="option-marker"></span><span class="option-text">C) Binary Output Mode</span></label>
+                    <label class="option-item"><input type="radio" name="q35" value="D"><span class="option-marker"></span><span class="option-text">D) Base Object Model</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 36 -->
+            <div class="question-card" data-question="q36">
+                <div class="question-header">
+                    <div class="question-number">36</div>
+                    <div class="question-text">Why add BOM to CSV files?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q36" value="A"><span class="option-marker"></span><span class="option-text">A) For faster processing</span></label>
+                    <label class="option-item"><input type="radio" name="q36" value="B"><span class="option-marker"></span><span class="option-text">B) For Excel UTF-8 support</span></label>
+                    <label class="option-item"><input type="radio" name="q36" value="C"><span class="option-marker"></span><span class="option-text">C) To compress the file</span></label>
+                    <label class="option-item"><input type="radio" name="q36" value="D"><span class="option-marker"></span><span class="option-text">D) To encrypt the data</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 37 -->
+            <div class="question-card" data-question="q37">
+                <div class="question-header">
+                    <div class="question-number">37</div>
+                    <div class="question-text">Which method creates a new PHPWord document?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q37" value="A"><span class="option-marker"></span><span class="option-text">A) new PHPWord()</span></label>
+                    <label class="option-item"><input type="radio" name="q37" value="B"><span class="option-marker"></span><span class="option-text">B) PHPWord::create()</span></label>
+                    <label class="option-item"><input type="radio" name="q37" value="C"><span class="option-marker"></span><span class="option-text">C) createWord()</span></label>
+                    <label class="option-item"><input type="radio" name="q37" value="D"><span class="option-marker"></span><span class="option-text">D) new WordDocument()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 38 -->
+            <div class="question-card" data-question="q38">
+                <div class="question-header">
+                    <div class="question-number">38</div>
+                    <div class="question-text">In FPDF, which method adds a new page?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q38" value="A"><span class="option-marker"></span><span class="option-text">A) newPage()</span></label>
+                    <label class="option-item"><input type="radio" name="q38" value="B"><span class="option-marker"></span><span class="option-text">B) AddPage()</span></label>
+                    <label class="option-item"><input type="radio" name="q38" value="C"><span class="option-marker"></span><span class="option-text">C) createPage()</span></label>
+                    <label class="option-item"><input type="radio" name="q38" value="D"><span class="option-marker"></span><span class="option-text">D) insertPage()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Section 4: File Operations (39-44) -->
+        <div class="section-header">
+            <div class="section-icon"><i class="fas fa-cogs"></i></div>
+            <h2 class="section-title">File Operations</h2>
+            <span class="section-badge">39-44</span>
+        </div>
+        
+        <div id="section4">
+            <!-- Question 39 -->
+            <div class="question-card" data-question="q39">
+                <div class="question-header">
+                    <div class="question-number">39</div>
+                    <div class="question-text">To display file content on web page safely, which function prevents XSS?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q39" value="A"><span class="option-marker"></span><span class="option-text">A) strip_tags()</span></label>
+                    <label class="option-item"><input type="radio" name="q39" value="B"><span class="option-marker"></span><span class="option-text">B) htmlspecialchars()</span></label>
+                    <label class="option-item"><input type="radio" name="q39" value="C"><span class="option-marker"></span><span class="option-text">C) clean_html()</span></label>
+                    <label class="option-item"><input type="radio" name="q39" value="D"><span class="option-marker"></span><span class="option-text">D) sanitize()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 40 -->
+            <div class="question-card" data-question="q40">
+                <div class="question-header">
+                    <div class="question-number">40</div>
+                    <div class="question-text">Which function preserves line breaks when displaying text in HTML?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q40" value="A"><span class="option-marker"></span><span class="option-text">A) br2nl()</span></label>
+                    <label class="option-item"><input type="radio" name="q40" value="B"><span class="option-marker"></span><span class="option-text">B) nl2br()</span></label>
+                    <label class="option-item"><input type="radio" name="q40" value="C"><span class="option-marker"></span><span class="option-text">C) linebreaks()</span></label>
+                    <label class="option-item"><input type="radio" name="q40" value="D"><span class="option-marker"></span><span class="option-text">D) preserve_breaks()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 41 -->
+            <div class="question-card" data-question="q41">
+                <div class="question-header">
+                    <div class="question-number">41</div>
+                    <div class="question-text">What does glob("*.txt") return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q41" value="A"><span class="option-marker"></span><span class="option-text">A) The first .txt file</span></label>
+                    <label class="option-item"><input type="radio" name="q41" value="B"><span class="option-marker"></span><span class="option-text">B) An array of all .txt files</span></label>
+                    <label class="option-item"><input type="radio" name="q41" value="C"><span class="option-marker"></span><span class="option-text">C) The number of .txt files</span></label>
+                    <label class="option-item"><input type="radio" name="q41" value="D"><span class="option-marker"></span><span class="option-text">D) A file pointer</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 42 -->
+            <div class="question-card" data-question="q42">
+                <div class="question-header">
+                    <div class="question-number">42</div>
+                    <div class="question-text">Which function gets the last modification time of a file?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q42" value="A"><span class="option-marker"></span><span class="option-text">A) filetime()</span></label>
+                    <label class="option-item"><input type="radio" name="q42" value="B"><span class="option-marker"></span><span class="option-text">B) filemtime()</span></label>
+                    <label class="option-item"><input type="radio" name="q42" value="C"><span class="option-marker"></span><span class="option-text">C) file_modified()</span></label>
+                    <label class="option-item"><input type="radio" name="q42" value="D"><span class="option-marker"></span><span class="option-text">D) modtime()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 43 -->
+            <div class="question-card" data-question="q43">
+                <div class="question-header">
+                    <div class="question-number">43</div>
+                    <div class="question-text">Which function gets the size of a file in bytes?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q43" value="A"><span class="option-marker"></span><span class="option-text">A) file_size()</span></label>
+                    <label class="option-item"><input type="radio" name="q43" value="B"><span class="option-marker"></span><span class="option-text">B) filesize()</span></label>
+                    <label class="option-item"><input type="radio" name="q43" value="C"><span class="option-marker"></span><span class="option-text">C) sizeof()</span></label>
+                    <label class="option-item"><input type="radio" name="q43" value="D"><span class="option-marker"></span><span class="option-text">D) get_size()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 44 -->
+            <div class="question-card" data-question="q44">
+                <div class="question-header">
+                    <div class="question-number">44</div>
+                    <div class="question-text">What does pathinfo($file, PATHINFO_EXTENSION) return?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q44" value="A"><span class="option-marker"></span><span class="option-text">A) The full path</span></label>
+                    <label class="option-item"><input type="radio" name="q44" value="B"><span class="option-marker"></span><span class="option-text">B) The file extension</span></label>
+                    <label class="option-item"><input type="radio" name="q44" value="C"><span class="option-marker"></span><span class="option-text">C) The file name</span></label>
+                    <label class="option-item"><input type="radio" name="q44" value="D"><span class="option-marker"></span><span class="option-text">D) The directory name</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Section 5: Upload and Download (45-50) -->
+        <div class="section-header">
+            <div class="section-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <h2 class="section-title">Upload & Download</h2>
+            <span class="section-badge">45-50</span>
+        </div>
+        
+        <div id="section5">
+            <!-- Question 45 -->
+            <div class="question-card" data-question="q45">
+                <div class="question-header">
+                    <div class="question-number">45</div>
+                    <div class="question-text">Where is uploaded file temporarily stored?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q45" value="A"><span class="option-marker"></span><span class="option-text">A) $_FILES['file']['path']</span></label>
+                    <label class="option-item"><input type="radio" name="q45" value="B"><span class="option-marker"></span><span class="option-text">B) $_FILES['file']['tmp_name']</span></label>
+                    <label class="option-item"><input type="radio" name="q45" value="C"><span class="option-marker"></span><span class="option-text">C) $_FILES['file']['temp']</span></label>
+                    <label class="option-item"><input type="radio" name="q45" value="D"><span class="option-marker"></span><span class="option-text">D) $_FILES['file']['location']</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 46 -->
+            <div class="question-card" data-question="q46">
+                <div class="question-header">
+                    <div class="question-number">46</div>
+                    <div class="question-text">Which function moves an uploaded file to permanent location?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q46" value="A"><span class="option-marker"></span><span class="option-text">A) move_file()</span></label>
+                    <label class="option-item"><input type="radio" name="q46" value="B"><span class="option-marker"></span><span class="option-text">B) upload_file()</span></label>
+                    <label class="option-item"><input type="radio" name="q46" value="C"><span class="option-marker"></span><span class="option-text">C) move_uploaded_file()</span></label>
+                    <label class="option-item"><input type="radio" name="q46" value="D"><span class="option-marker"></span><span class="option-text">D) save_upload()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 47 -->
+            <div class="question-card" data-question="q47">
+                <div class="question-header">
+                    <div class="question-number">47</div>
+                    <div class="question-text">What does $_FILES['file']['size'] contain?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q47" value="A"><span class="option-marker"></span><span class="option-text">A) File name</span></label>
+                    <label class="option-item"><input type="radio" name="q47" value="B"><span class="option-marker"></span><span class="option-text">B) File size in bytes</span></label>
+                    <label class="option-item"><input type="radio" name="q47" value="C"><span class="option-marker"></span><span class="option-text">C) File type</span></label>
+                    <label class="option-item"><input type="radio" name="q47" value="D"><span class="option-marker"></span><span class="option-text">D) File path</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 48 -->
+            <div class="question-card" data-question="q48">
+                <div class="question-header">
+                    <div class="question-number">48</div>
+                    <div class="question-text">Which header forces a file download?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q48" value="A"><span class="option-marker"></span><span class="option-text">A) Content-Type: download</span></label>
+                    <label class="option-item"><input type="radio" name="q48" value="B"><span class="option-marker"></span><span class="option-text">B) Content-Disposition: attachment</span></label>
+                    <label class="option-item"><input type="radio" name="q48" value="C"><span class="option-marker"></span><span class="option-text">C) Force-Download: true</span></label>
+                    <label class="option-item"><input type="radio" name="q48" value="D"><span class="option-marker"></span><span class="option-text">D) Download-File: yes</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 49 -->
+            <div class="question-card" data-question="q49">
+                <div class="question-header">
+                    <div class="question-number">49</div>
+                    <div class="question-text">Which class is used to create ZIP archives?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q49" value="A"><span class="option-marker"></span><span class="option-text">A) ZipFile</span></label>
+                    <label class="option-item"><input type="radio" name="q49" value="B"><span class="option-marker"></span><span class="option-text">B) ZipArchive</span></label>
+                    <label class="option-item"><input type="radio" name="q49" value="C"><span class="option-marker"></span><span class="option-text">C) Archive</span></label>
+                    <label class="option-item"><input type="radio" name="q49" value="D"><span class="option-marker"></span><span class="option-text">D) Compressor</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 50 -->
+            <div class="question-card" data-question="q50">
+                <div class="question-header">
+                    <div class="question-number">50</div>
+                    <div class="question-text">Which ZipArchive method adds a file to the archive?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q50" value="A"><span class="option-marker"></span><span class="option-text">A) add()</span></label>
+                    <label class="option-item"><input type="radio" name="q50" value="B"><span class="option-marker"></span><span class="option-text">B) addFile()</span></label>
+                    <label class="option-item"><input type="radio" name="q50" value="C"><span class="option-marker"></span><span class="option-text">C) insert()</span></label>
+                    <label class="option-item"><input type="radio" name="q50" value="D"><span class="option-marker"></span><span class="option-text">D) append()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Section 6: Error and Exception Handling (51-60) -->
+        <div class="section-header">
+            <div class="section-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <h2 class="section-title">Error & Exception Handling</h2>
+            <span class="section-badge">51-60</span>
+        </div>
+        
+        <div id="section6">
+            <!-- Question 51 -->
+            <div class="question-card" data-question="q51">
+                <div class="question-header">
+                    <div class="question-number">51</div>
+                    <div class="question-text">Which are the three main types of PHP errors?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q51" value="A"><span class="option-marker"></span><span class="option-text">A) Syntax, Logic, Runtime</span></label>
+                    <label class="option-item"><input type="radio" name="q51" value="B"><span class="option-marker"></span><span class="option-text">B) Fatal, Warning, Notice</span></label>
+                    <label class="option-item"><input type="radio" name="q51" value="C"><span class="option-marker"></span><span class="option-text">C) Error, Exception, Warning</span></label>
+                    <label class="option-item"><input type="radio" name="q51" value="D"><span class="option-marker"></span><span class="option-text">D) Critical, Major, Minor</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 52 -->
+            <div class="question-card" data-question="q52">
+                <div class="question-header">
+                    <div class="question-number">52</div>
+                    <div class="question-text">What does die() do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q52" value="A"><span class="option-marker"></span><span class="option-text">A) Stops script execution</span></label>
+                    <label class="option-item"><input type="radio" name="q52" value="B"><span class="option-marker"></span><span class="option-text">B) Creates an error log</span></label>
+                    <label class="option-item"><input type="radio" name="q52" value="C"><span class="option-marker"></span><span class="option-text">C) Throws an exception</span></label>
+                    <label class="option-item"><input type="radio" name="q52" value="D"><span class="option-marker"></span><span class="option-text">D) Closes all files</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 53 -->
+            <div class="question-card" data-question="q53">
+                <div class="question-header">
+                    <div class="question-number">53</div>
+                    <div class="question-text">Is there any difference between die() and exit()?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q53" value="A"><span class="option-marker"></span><span class="option-text">A) Yes, die() is faster</span></label>
+                    <label class="option-item"><input type="radio" name="q53" value="B"><span class="option-marker"></span><span class="option-text">B) Yes, exit() is newer</span></label>
+                    <label class="option-item"><input type="radio" name="q53" value="C"><span class="option-marker"></span><span class="option-text">C) No, they are identical</span></label>
+                    <label class="option-item"><input type="radio" name="q53" value="D"><span class="option-marker"></span><span class="option-text">D) Yes, die() logs errors</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 54 -->
+            <div class="question-card" data-question="q54">
+                <div class="question-header">
+                    <div class="question-number">54</div>
+                    <div class="question-text">Which function sets a custom error handler?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q54" value="A"><span class="option-marker"></span><span class="option-text">A) error_handler()</span></label>
+                    <label class="option-item"><input type="radio" name="q54" value="B"><span class="option-marker"></span><span class="option-text">B) set_error_handler()</span></label>
+                    <label class="option-item"><input type="radio" name="q54" value="C"><span class="option-marker"></span><span class="option-text">C) custom_errors()</span></label>
+                    <label class="option-item"><input type="radio" name="q54" value="D"><span class="option-marker"></span><span class="option-text">D) handle_errors()</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 55 -->
+            <div class="question-card" data-question="q55">
+                <div class="question-header">
+                    <div class="question-number">55</div>
+                    <div class="question-text">What does trigger_error() do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q55" value="A"><span class="option-marker"></span><span class="option-text">A) Creates a custom error</span></label>
+                    <label class="option-item"><input type="radio" name="q55" value="B"><span class="option-marker"></span><span class="option-text">B) Catches errors</span></label>
+                    <label class="option-item"><input type="radio" name="q55" value="C"><span class="option-marker"></span><span class="option-text">C) Logs errors</span></label>
+                    <label class="option-item"><input type="radio" name="q55" value="D"><span class="option-marker"></span><span class="option-text">D) Disables errors</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 56 -->
+            <div class="question-card" data-question="q56">
+                <div class="question-header">
+                    <div class="question-number">56</div>
+                    <div class="question-text">Which keyword is used to handle exceptions?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q56" value="A"><span class="option-marker"></span><span class="option-text">A) handle</span></label>
+                    <label class="option-item"><input type="radio" name="q56" value="B"><span class="option-marker"></span><span class="option-text">B) catch</span></label>
+                    <label class="option-item"><input type="radio" name="q56" value="C"><span class="option-marker"></span><span class="option-text">C) get</span></label>
+                    <label class="option-item"><input type="radio" name="q56" value="D"><span class="option-marker"></span><span class="option-text">D) capture</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 57 -->
+            <div class="question-card" data-question="q57">
+                <div class="question-header">
+                    <div class="question-number">57</div>
+                    <div class="question-text">Which keyword throws an exception?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q57" value="A"><span class="option-marker"></span><span class="option-text">A) throw</span></label>
+                    <label class="option-item"><input type="radio" name="q57" value="B"><span class="option-marker"></span><span class="option-text">B) raise</span></label>
+                    <label class="option-item"><input type="radio" name="q57" value="C"><span class="option-marker"></span><span class="option-text">C) create</span></label>
+                    <label class="option-item"><input type="radio" name="q57" value="D"><span class="option-marker"></span><span class="option-text">D) error</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 58 -->
+            <div class="question-card" data-question="q58">
+                <div class="question-header">
+                    <div class="question-number">58</div>
+                    <div class="question-text">What does the finally block do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q58" value="A"><span class="option-marker"></span><span class="option-text">A) Catches all exceptions</span></label>
+                    <label class="option-item"><input type="radio" name="q58" value="B"><span class="option-marker"></span><span class="option-text">B) Always executes regardless of exception</span></label>
+                    <label class="option-item"><input type="radio" name="q58" value="C"><span class="option-marker"></span><span class="option-text">C) Only runs if no exception occurs</span></label>
+                    <label class="option-item"><input type="radio" name="q58" value="D"><span class="option-marker"></span><span class="option-text">D) Logs the final error</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 59 -->
+            <div class="question-card" data-question="q59">
+                <div class="question-header">
+                    <div class="question-number">59</div>
+                    <div class="question-text">What does "extends Exception" do?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q59" value="A"><span class="option-marker"></span><span class="option-text">A) Creates a new error type</span></label>
+                    <label class="option-item"><input type="radio" name="q59" value="B"><span class="option-marker"></span><span class="option-text">B) Creates a custom exception class</span></label>
+                    <label class="option-item"><input type="radio" name="q59" value="C"><span class="option-marker"></span><span class="option-text">C) Extends error logging</span></label>
+                    <label class="option-item"><input type="radio" name="q59" value="D"><span class="option-marker"></span><span class="option-text">D) Increases exception limit</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
+
+            <!-- Question 60 -->
+            <div class="question-card" data-question="q60">
+                <div class="question-header">
+                    <div class="question-number">60</div>
+                    <div class="question-text">What order should multiple catch blocks be in?</div>
+                </div>
+                <div class="options-grid">
+                    <label class="option-item"><input type="radio" name="q60" value="A"><span class="option-marker"></span><span class="option-text">A) Most general to most specific</span></label>
+                    <label class="option-item"><input type="radio" name="q60" value="B"><span class="option-marker"></span><span class="option-text">B) Most specific to most general</span></label>
+                    <label class="option-item"><input type="radio" name="q60" value="C"><span class="option-marker"></span><span class="option-text">C) Alphabetical order</span></label>
+                    <label class="option-item"><input type="radio" name="q60" value="D"><span class="option-marker"></span><span class="option-text">D) Order doesn't matter</span></label>
+                </div>
+                <div class="feedback-message" style="display: none;"></div>
+            </div>
         </div>
 
         <!-- Action Buttons -->
@@ -938,7 +1887,7 @@
     </div>
 
     <script>
-        // Answer key
+        // Answer key for all 60 questions
         const ANSWER_KEY = {
             q1: 'D', q2: 'B', q3: 'B', q4: 'B', q5: 'A', q6: 'B', q7: 'B', q8: 'C', q9: 'B', q10: 'C',
             q11: 'B', q12: 'C', q13: 'B', q14: 'B', q15: 'B', q16: 'B', q17: 'B', q18: 'C', q19: 'B', q20: 'C',
@@ -947,16 +1896,6 @@
             q41: 'B', q42: 'B', q43: 'B', q44: 'B', q45: 'B', q46: 'C', q47: 'B', q48: 'B', q49: 'B', q50: 'B',
             q51: 'A', q52: 'A', q53: 'C', q54: 'B', q55: 'A', q56: 'B', q57: 'A', q58: 'B', q59: 'B', q60: 'B'
         };
-
-        // Question data
-        const QUESTIONS = Array.from({ length: 60 }, (_, i) => {
-            const section = Math.floor(i / 10) + 1;
-            return {
-                id: `q${i + 1}`,
-                text: `Sample question ${i + 1} for section ${section}`,
-                options: ['Option A', 'Option B', 'Option C', 'Option D']
-            };
-        });
 
         // State management
         let state = {
@@ -1005,7 +1944,7 @@
                     }
                 });
                 
-                return `Section ${bestIdx + 1}`;
+                return bestScore > 0 ? `Section ${bestIdx + 1}` : 'N/A';
             },
             
             getScore() {
@@ -1025,11 +1964,9 @@
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
             
-            // Update active buttons
             document.getElementById('lightThemeBtn').classList.toggle('active', theme === 'light');
             document.getElementById('darkThemeBtn').classList.toggle('active', theme === 'dark');
             
-            // Update charts with new theme colors
             updateAllCharts();
         }
 
@@ -1102,7 +2039,6 @@
                 state.chartInstances.progress.data.datasets[1].data = sections.map(s => s.incorrect);
                 state.chartInstances.progress.data.datasets[2].data = sections.map(s => s.pending);
                 
-                // Update colors for dark/light mode
                 const textColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text').trim();
                 const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid').trim();
                 
@@ -1149,7 +2085,6 @@
             document.getElementById('totalIncorrect').textContent = score.incorrect;
             document.getElementById('progressStats').textContent = `${score.total}/60 completed`;
             
-            // Update trends
             if (score.total > 0) {
                 const correctPercent = Math.round((score.correct / score.total) * 100);
                 const incorrectPercent = Math.round((score.incorrect / score.total) * 100);
@@ -1234,10 +2169,9 @@
             }
         }
 
-        // Show results with detailed analytics
+        // Show results
         function showResults() {
             const score = state.getScore();
-            const sections = state.getSectionStats();
             
             document.getElementById('modalScore').textContent = `${state.correctCount}/60`;
             document.getElementById('modalAccuracy').textContent = `${score.percentage}%`;
@@ -1364,7 +2298,6 @@
                     state.incorrectCount = savedState.incorrectCount || 0;
                     state.answered = new Set(savedState.answered || []);
                     
-                    // Restore UI
                     Object.entries(state.answers).forEach(([qId, answer]) => {
                         const card = document.querySelector(`[data-question="${qId}"]`);
                         if (card) {
@@ -1373,6 +2306,12 @@
                                 radio.checked = true;
                                 const correctAnswer = ANSWER_KEY[qId];
                                 updateQuestionUI(card, answer, correctAnswer);
+                                
+                                if (answer === correctAnswer) {
+                                    card.classList.add('correct');
+                                } else {
+                                    card.classList.add('incorrect');
+                                }
                             }
                         }
                     });
@@ -1398,55 +2337,29 @@
             }
         }
 
-        // Initialize quiz
-        function initializeQuiz() {
+        // Add event listeners to all questions
+        function addEventListeners() {
+            document.querySelectorAll('.option-item').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    const input = this.querySelector('input');
+                    if (input) {
+                        const questionId = input.name;
+                        handleAnswer(questionId, input.value);
+                    }
+                });
+            });
+        }
+
+        // Initialize
+        function initialize() {
             loadTheme();
             initCharts();
-            
-            // Create questions (simplified for demo)
-            const sections = ['section1', 'section2', 'section3', 'section4', 'section5', 'section6'].map(id => document.getElementById(id));
-            
-            for (let i = 1; i <= 60; i++) {
-                const sectionIdx = Math.floor((i - 1) / 10);
-                const card = document.createElement('div');
-                card.className = 'question-card';
-                card.dataset.question = `q${i}`;
-                
-                card.innerHTML = `
-                    <div class="question-header">
-                        <div class="question-number">${i}</div>
-                        <div class="question-text">Question ${i}: Sample PHP question?</div>
-                    </div>
-                    <div class="options-grid">
-                        ${['A', 'B', 'C', 'D'].map(letter => `
-                            <label class="option-item">
-                                <input type="radio" name="q${i}" value="${letter}">
-                                <span class="option-marker"></span>
-                                <span class="option-text">${letter}) Sample option</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                    <div class="feedback-message" style="display: none;"></div>
-                `;
-                
-                // Add event listeners
-                card.querySelectorAll('.option-item').forEach(opt => {
-                    opt.addEventListener('click', () => {
-                        const input = opt.querySelector('input');
-                        handleAnswer(`q${i}`, input.value);
-                    });
-                });
-                
-                if (sections[sectionIdx]) {
-                    sections[sectionIdx].appendChild(card);
-                }
-            }
-            
+            addEventListeners();
             loadSavedState();
         }
 
         // Event listeners
-        document.addEventListener('DOMContentLoaded', initializeQuiz);
+        document.addEventListener('DOMContentLoaded', initialize);
         
         document.getElementById('resultsModal').addEventListener('click', (e) => {
             if (e.target.classList.contains('modal')) {
