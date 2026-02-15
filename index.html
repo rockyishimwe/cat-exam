@@ -3,81 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Mastery: File Processing & Error Handling</title>
+    <title>PHP Mastery · Analytics Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        /* [Previous CSS styles remain exactly the same as above] */
+        /* ---------- THEME VARIABLES ---------- */
         :root {
-            --primary-50: #eef2ff;
-            --primary-100: #e0e7ff;
-            --primary-200: #c7d2fe;
-            --primary-300: #a5b4fc;
-            --primary-400: #818cf8;
-            --primary-500: #6366f1;
-            --primary-600: #4f46e5;
-            --primary-700: #4338ca;
-            --primary-800: #3730a3;
-            --primary-900: #312e81;
+            /* Light theme (default) */
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f1f5f9;
+            --bg-elevated: #ffffff;
+            --bg-inset: #eef2f6;
             
-            --success-50: #ecfdf5;
-            --success-500: #10b981;
-            --success-600: #059669;
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            --border-strong: #94a3b8;
             
-            --error-50: #fef2f2;
-            --error-500: #ef4444;
-            --error-600: #dc2626;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-tertiary: #64748b;
+            --text-muted: #94a3b8;
             
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
+            --accent-white: #ffffff;
+            --accent-gray: #64748b;
+            --accent-dark: #1e293b;
             
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --correct-bg: #f0fdf4;
+            --correct-border: #86efac;
+            --correct-text: #166534;
             
-            --radius-sm: 0.375rem;
-            --radius: 0.5rem;
-            --radius-md: 0.75rem;
-            --radius-lg: 1rem;
-            --radius-xl: 1.5rem;
+            --incorrect-bg: #fef2f2;
+            --incorrect-border: #fecaca;
+            --incorrect-text: #991b1b;
+            
+            --chart-grid: #e2e8f0;
+            --chart-text: #334155;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+        }
+
+        /* Dark theme */
+        [data-theme="dark"] {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #121212;
+            --bg-tertiary: #1e1e1e;
+            --bg-elevated: #2a2a2a;
+            --bg-inset: #181818;
+            
+            --border-light: #2a2a2a;
+            --border-medium: #333333;
+            --border-strong: #444444;
+            
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-tertiary: #a0a0a0;
+            --text-muted: #666666;
+            
+            --accent-white: #ffffff;
+            --accent-gray: #888888;
+            --accent-dark: #222222;
+            
+            --correct-bg: #1a2a1a;
+            --correct-border: #3a5a3a;
+            --correct-text: #e0ffe0;
+            
+            --incorrect-bg: #2a1a1a;
+            --incorrect-border: #5a3a3a;
+            --incorrect-text: #ffe0e0;
+            
+            --chart-grid: #333333;
+            --chart-text: #cccccc;
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.6);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.8);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.9);
+            --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.95);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.2s ease, color 0.2s ease;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-primary);
             min-height: 100vh;
             padding: 2rem 1rem;
             line-height: 1.5;
-            color: var(--gray-900);
+            color: var(--text-primary);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            border-radius: 40px;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .theme-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            border: none;
+            background: transparent;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .theme-btn.active {
+            background: var(--accent-dark);
+            color: var(--text-primary);
+        }
+
+        .theme-btn:hover {
+            color: var(--text-primary);
         }
 
         .quiz-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
+        /* Header with Analytics */
         .header-card {
-            background: white;
-            border-radius: var(--radius-xl);
+            background: var(--bg-secondary);
+            border-radius: 24px;
             padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-light);
             animation: slideDown 0.5s ease;
         }
 
@@ -92,99 +167,204 @@
             }
         }
 
+        .title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
         .title {
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            color: var(--text-primary);
             letter-spacing: -0.02em;
         }
 
         .subtitle {
-            color: var(--gray-500);
+            color: var(--text-tertiary);
             font-size: 1rem;
             font-weight: 400;
         }
 
-        .stats-grid {
+        /* Analytics Grid */
+        .analytics-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-legend {
+            display: flex;
             gap: 1rem;
-            margin-top: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+        }
+
+        .legend-color.correct {
+            background: #10b981;
+        }
+        .legend-color.incorrect {
+            background: #ef4444;
+        }
+        .legend-color.pending {
+            background: var(--text-muted);
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 200px !important;
+        }
+
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
 
         .stat-card {
-            background: var(--gray-50);
-            border-radius: var(--radius-lg);
-            padding: 1.25rem;
-            border: 1px solid var(--gray-200);
-            transition: all 0.2s ease;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-light);
+            transition: transform 0.2s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary-200);
         }
 
         .stat-label {
             font-size: 0.875rem;
             font-weight: 500;
-            color: var(--gray-500);
+            color: var(--text-tertiary);
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .stat-label i {
-            color: var(--primary-500);
-            font-size: 1rem;
-        }
-
         .stat-value {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--gray-900);
+            color: var(--text-primary);
             line-height: 1.2;
+            margin-bottom: 0.25rem;
         }
 
-        .stat-value small {
+        .stat-trend {
             font-size: 0.875rem;
-            font-weight: 400;
-            color: var(--gray-400);
+            color: var(--text-tertiary);
         }
 
+        .stat-trend i {
+            margin-right: 0.25rem;
+        }
+
+        .stat-trend.positive {
+            color: #10b981;
+        }
+        .stat-trend.negative {
+            color: #ef4444;
+        }
+
+        /* Progress Section */
         .progress-section {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
         .progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            color: var(--gray-600);
+            margin-bottom: 0.75rem;
         }
 
-        .progress-bar {
-            height: 0.5rem;
-            background: var(--gray-200);
+        .progress-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-stats {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+        }
+
+        .progress-bar-container {
+            height: 0.75rem;
+            background: var(--bg-inset);
             border-radius: 9999px;
             overflow: hidden;
+            display: flex;
+            gap: 2px;
+            padding: 2px;
         }
 
-        .progress-fill {
+        .progress-segment {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
             border-radius: 9999px;
             transition: width 0.3s ease;
-            width: 0%;
         }
 
+        .progress-segment.correct {
+            background: #10b981;
+        }
+        .progress-segment.incorrect {
+            background: #ef4444;
+        }
+        .progress-segment.pending {
+            background: var(--text-muted);
+            opacity: 0.3;
+        }
+
+        /* Section Headers */
         .section-header {
             display: flex;
             align-items: center;
@@ -195,63 +375,57 @@
         .section-icon {
             width: 2.5rem;
             height: 2.5rem;
-            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-            border-radius: var(--radius);
+            background: var(--bg-tertiary);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--text-secondary);
             font-size: 1.25rem;
-            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
         }
 
         .section-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: var(--gray-800);
+            color: var(--text-primary);
         }
 
-        .section-count {
+        .section-badge {
             margin-left: auto;
-            font-size: 0.875rem;
-            color: var(--gray-400);
+            background: var(--bg-tertiary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 500;
+            color: var(--text-tertiary);
+            border: 1px solid var(--border-light);
         }
 
+        /* Question Cards */
         .question-card {
-            background: white;
-            border-radius: var(--radius-lg);
+            background: var(--bg-secondary);
+            border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            border: 1px solid var(--gray-200);
+            border: 1px solid var(--border-light);
             transition: all 0.2s ease;
             animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .question-card:hover {
-            border-color: var(--primary-200);
+            border-color: var(--border-strong);
             box-shadow: var(--shadow-md);
         }
 
         .question-card.correct {
-            background: var(--success-50);
-            border-color: var(--success-500);
+            background: var(--correct-bg);
+            border-color: var(--correct-border);
         }
 
         .question-card.incorrect {
-            background: var(--error-50);
-            border-color: var(--error-500);
+            background: var(--incorrect-bg);
+            border-color: var(--incorrect-border);
         }
 
         .question-header {
@@ -264,29 +438,32 @@
         .question-number {
             width: 2rem;
             height: 2rem;
-            background: var(--gray-100);
-            border-radius: var(--radius);
+            background: var(--bg-tertiary);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.875rem;
             font-weight: 600;
-            color: var(--gray-600);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
         }
 
         .question-card.correct .question-number {
-            background: var(--success-500);
+            background: var(--correct-border);
             color: white;
+            border-color: var(--correct-border);
         }
 
         .question-card.incorrect .question-number {
-            background: var(--error-500);
+            background: var(--incorrect-border);
             color: white;
+            border-color: var(--incorrect-border);
         }
 
         .question-text {
             font-weight: 500;
-            color: var(--gray-800);
+            color: var(--text-primary);
             line-height: 1.6;
         }
 
@@ -301,16 +478,16 @@
             display: flex;
             align-items: center;
             padding: 1rem 1.25rem;
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.15s ease;
         }
 
         .option-item:hover {
-            background: var(--gray-100);
-            border-color: var(--primary-300);
+            background: var(--bg-elevated);
+            border-color: var(--border-strong);
             transform: translateX(4px);
         }
 
@@ -324,8 +501,8 @@
         .option-marker {
             width: 1.5rem;
             height: 1.5rem;
-            background: white;
-            border: 2px solid var(--gray-300);
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-medium);
             border-radius: 50%;
             margin-right: 1rem;
             display: flex;
@@ -333,13 +510,13 @@
             justify-content: center;
             font-size: 0.75rem;
             font-weight: 600;
-            color: white;
+            color: var(--text-primary);
             transition: all 0.15s ease;
         }
 
         .option-item input[type="radio"]:checked + .option-marker {
-            background: var(--primary-500);
-            border-color: var(--primary-500);
+            background: var(--accent-dark);
+            border-color: var(--text-primary);
         }
 
         .option-item input[type="radio"]:checked + .option-marker::after {
@@ -349,55 +526,38 @@
         .option-text {
             flex: 1;
             font-size: 0.95rem;
-            color: var(--gray-700);
-        }
-
-        .option-item.correct-highlight {
-            background: var(--success-50);
-            border-color: var(--success-500);
-        }
-
-        .option-item.correct-highlight .option-marker {
-            border-color: var(--success-500);
-            background: var(--success-500);
+            color: var(--text-secondary);
         }
 
         .option-item.selected-correct {
-            background: var(--success-500);
-            border-color: var(--success-600);
+            background: var(--correct-bg);
+            border-color: var(--correct-border);
         }
 
         .option-item.selected-correct .option-text {
-            color: white;
+            color: var(--correct-text);
             font-weight: 500;
-        }
-
-        .option-item.selected-correct .option-marker {
-            border-color: white;
-            background: white;
-            color: var(--success-500);
         }
 
         .option-item.selected-incorrect {
-            background: var(--error-500);
-            border-color: var(--error-600);
+            background: var(--incorrect-bg);
+            border-color: var(--incorrect-border);
         }
 
         .option-item.selected-incorrect .option-text {
-            color: white;
+            color: var(--incorrect-text);
             font-weight: 500;
         }
 
-        .option-item.selected-incorrect .option-marker {
-            border-color: white;
-            background: white;
-            color: var(--error-500);
+        .option-item.correct-highlight {
+            border-color: var(--correct-border);
+            border-width: 2px;
         }
 
         .feedback-message {
             margin-top: 1rem;
             padding: 1rem;
-            border-radius: var(--radius);
+            border-radius: 12px;
             font-size: 0.95rem;
             font-weight: 500;
             display: flex;
@@ -406,58 +566,46 @@
             animation: slideIn 0.2s ease;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .feedback-message i {
-            font-size: 1.1rem;
-        }
-
         .feedback-message.correct {
-            background: var(--success-50);
-            color: var(--success-600);
-            border: 1px solid var(--success-200);
+            background: var(--correct-bg);
+            color: var(--correct-text);
+            border: 1px solid var(--correct-border);
         }
 
         .feedback-message.incorrect {
-            background: var(--error-50);
-            color: var(--error-600);
-            border: 1px solid var(--error-200);
+            background: var(--incorrect-bg);
+            color: var(--incorrect-text);
+            border: 1px solid var(--incorrect-border);
         }
 
         .action-bar {
             display: flex;
             gap: 1rem;
             justify-content: center;
-            margin: 2rem 0;
+            margin: 3rem 0 2rem;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 0.875rem 2rem;
+            padding: 1rem 2.5rem;
             border: none;
-            border-radius: var(--radius-lg);
+            border-radius: 40px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: var(--shadow-sm);
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-            color: white;
+            background: var(--accent-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--border-strong);
         }
 
         .btn-primary:hover {
@@ -465,19 +613,12 @@
             box-shadow: var(--shadow-lg);
         }
 
-        .btn-secondary {
-            background: white;
-            color: var(--gray-700);
-            border: 1px solid var(--gray-200);
-        }
-
         .btn-secondary:hover {
-            background: var(--gray-50);
-            border-color: var(--gray-300);
+            background: var(--bg-tertiary);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
         }
 
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -485,13 +626,12 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
+            z-index: 2000;
         }
 
         .modal.show {
@@ -499,26 +639,15 @@
         }
 
         .modal-content {
-            background: white;
-            border-radius: var(--radius-xl);
-            padding: 2rem;
-            max-width: 500px;
+            background: var(--bg-secondary);
+            border-radius: 32px;
+            padding: 2.5rem;
+            max-width: 600px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
+            border: 1px solid var(--border-light);
             box-shadow: var(--shadow-xl);
-            animation: scaleIn 0.3s ease;
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
         }
 
         .modal-header {
@@ -529,68 +658,68 @@
         .modal-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
+            filter: grayscale(100%);
         }
 
         .modal-title {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--gray-900);
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         .modal-stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
             margin: 2rem 0;
         }
 
         .modal-stat {
-            background: var(--gray-50);
-            padding: 1.25rem;
-            border-radius: var(--radius-lg);
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 20px;
             text-align: center;
+            border: 1px solid var(--border-light);
         }
 
         .modal-stat-label {
             font-size: 0.875rem;
-            color: var(--gray-500);
+            color: var(--text-tertiary);
             margin-bottom: 0.5rem;
         }
 
         .modal-stat-value {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--gray-900);
+            color: var(--text-primary);
         }
 
-        .modal-stat-value.correct {
-            color: var(--success-500);
-        }
-
-        .modal-stat-value.incorrect {
-            color: var(--error-500);
+        .modal-chart {
+            margin: 2rem 0;
+            height: 200px;
         }
 
         .modal-message {
-            background: var(--primary-50);
-            padding: 1.25rem;
-            border-radius: var(--radius-lg);
-            color: var(--primary-700);
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 16px;
+            color: var(--text-secondary);
             font-weight: 500;
             text-align: center;
             margin: 1.5rem 0;
+            border: 1px solid var(--border-light);
         }
 
         .confetti {
             position: fixed;
             width: 10px;
             height: 10px;
-            background: var(--primary-500);
-            position: fixed;
+            background: white;
             top: -10px;
-            z-index: 1001;
+            z-index: 2001;
             pointer-events: none;
+            opacity: 0.8;
         }
 
         @keyframes confettiFall {
@@ -611,8 +740,9 @@
                 font-size: 2rem;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
             }
 
             .modal-stats {
@@ -631,134 +761,119 @@
     </style>
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-btn active" onclick="setTheme('light')" id="lightThemeBtn">
+            <i class="fas fa-sun"></i>
+        </button>
+        <button class="theme-btn" onclick="setTheme('dark')" id="darkThemeBtn">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
     <div class="quiz-container">
-        <!-- Header -->
+        <!-- Header with Analytics -->
         <div class="header-card">
-            <h1 class="title">PHP Mastery</h1>
-            <p class="subtitle">File Processing & Error Handling</p>
-            
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">
-                        <i class="fas fa-check-circle"></i>
-                        Correct
-                    </div>
-                    <div class="stat-value" id="correctCount">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">
-                        <i class="fas fa-times-circle"></i>
-                        Incorrect
-                    </div>
-                    <div class="stat-value" id="incorrectCount">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">
-                        <i class="fas fa-percent"></i>
-                        Score
-                    </div>
-                    <div class="stat-value" id="scorePercentage">0<small>%</small></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">
-                        <i class="fas fa-tasks"></i>
-                        Progress
-                    </div>
-                    <div class="stat-value" id="progressCount">0<small>/60</small></div>
+            <div class="title-section">
+                <div>
+                    <h1 class="title">PHP Mastery</h1>
+                    <p class="subtitle">File Processing & Error Handling · Analytics Dashboard</p>
                 </div>
             </div>
             
-            <!-- Progress Bar -->
+            <!-- Analytics Dashboard -->
+            <div class="analytics-grid">
+                <!-- Progress Chart -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <span class="chart-title">Progress by Section</span>
+                        <div class="chart-legend">
+                            <span class="legend-item">
+                                <span class="legend-color correct"></span>
+                                <span>Correct</span>
+                            </span>
+                            <span class="legend-item">
+                                <span class="legend-color incorrect"></span>
+                                <span>Incorrect</span>
+                            </span>
+                            <span class="legend-item">
+                                <span class="legend-color pending"></span>
+                                <span>Pending</span>
+                            </span>
+                        </div>
+                    </div>
+                    <canvas id="progressChart"></canvas>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <i class="fas fa-check-circle"></i>
+                            Current Score
+                        </div>
+                        <div class="stat-value" id="currentScore">0%</div>
+                        <div class="stat-trend" id="scoreTrend">
+                            <i class="fas fa-minus"></i> No data yet
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <i class="fas fa-tasks"></i>
+                            Completion
+                        </div>
+                        <div class="stat-value" id="completionRate">0%</div>
+                        <div class="stat-trend" id="completionTrend">
+                            <i class="fas fa-clock"></i> 0/60 answered
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <i class="fas fa-star"></i>
+                            Correct
+                        </div>
+                        <div class="stat-value" id="totalCorrect">0</div>
+                        <div class="stat-trend positive" id="correctTrend">
+                            <i class="fas fa-arrow-up"></i> <span id="correctPercent">0%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <i class="fas fa-times-circle"></i>
+                            Incorrect
+                        </div>
+                        <div class="stat-value" id="totalIncorrect">0</div>
+                        <div class="stat-trend negative" id="incorrectTrend">
+                            <i class="fas fa-arrow-down"></i> <span id="incorrectPercent">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Progress Bar -->
             <div class="progress-section">
                 <div class="progress-header">
-                    <span>Overall Progress</span>
-                    <span id="progressPercentage">0%</span>
+                    <span class="progress-title">Question-by-Question Progress</span>
+                    <span class="progress-stats" id="progressStats">0/60 completed</span>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressBarFill" style="width: 0%"></div>
-                </div>
+                <div class="progress-bar-container" id="progressBar"></div>
             </div>
         </div>
 
         <!-- Sections -->
         <div id="quizContent">
-            <!-- Section 1: Pre-defined Functions -->
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <h2 class="section-title">Pre-defined Functions</h2>
-                <span class="section-count">1-15</span>
-            </div>
-            
-            <div id="section1" class="questions-section"></div>
-
-            <!-- Section 2: File Processing Functions -->
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-file-code"></i>
-                </div>
-                <h2 class="section-title">File Processing</h2>
-                <span class="section-count">16-30</span>
-            </div>
-            
-            <div id="section2" class="questions-section"></div>
-
-            <!-- Section 3: File Creation -->
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <h2 class="section-title">File Creation</h2>
-                <span class="section-count">31-38</span>
-            </div>
-            
-            <div id="section3" class="questions-section"></div>
-
-            <!-- Section 4: File Operations -->
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <h2 class="section-title">File Operations</h2>
-                <span class="section-count">39-44</span>
-            </div>
-            
-            <div id="section4" class="questions-section"></div>
-
-            <!-- Section 5: Upload and Download -->
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                </div>
-                <h2 class="section-title">Upload & Download</h2>
-                <span class="section-count">45-50</span>
-            </div>
-            
-            <div id="section5" class="questions-section"></div>
-
-            <!-- Section 6: Error Handling -->
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <h2 class="section-title">Error & Exception Handling</h2>
-                <span class="section-count">51-60</span>
-            </div>
-            
-            <div id="section6" class="questions-section"></div>
+            <!-- Sections will be populated by JavaScript -->
         </div>
 
         <!-- Action Buttons -->
         <div class="action-bar">
             <button class="btn btn-primary" onclick="showResults()">
-                <i class="fas fa-chart-bar"></i>
-                View Results
+                <i class="fas fa-chart-pie"></i>
+                View Detailed Analytics
             </button>
             <button class="btn btn-secondary" onclick="resetQuiz()">
                 <i class="fas fa-redo-alt"></i>
-                Reset Quiz
+                Reset Progress
             </button>
         </div>
     </div>
@@ -768,44 +883,56 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-icon" id="resultIcon">📊</div>
-                <h2 class="modal-title">Quiz Results</h2>
-                <p class="subtitle" id="resultSubtitle">Here's your performance breakdown</p>
+                <h2 class="modal-title">Performance Analytics</h2>
+                <p class="subtitle" id="resultSubtitle">Your detailed breakdown</p>
             </div>
             
             <div class="modal-stats">
                 <div class="modal-stat">
-                    <div class="modal-stat-label">Correct Answers</div>
-                    <div class="modal-stat-value correct" id="modalCorrect">0</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-label">Incorrect Answers</div>
-                    <div class="modal-stat-value incorrect" id="modalIncorrect">0</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-label">Total Score</div>
+                    <div class="modal-stat-label">Final Score</div>
                     <div class="modal-stat-value" id="modalScore">0/60</div>
                 </div>
                 <div class="modal-stat">
-                    <div class="modal-stat-label">Percentage</div>
-                    <div class="modal-stat-value" id="modalPercentage">0%</div>
+                    <div class="modal-stat-label">Accuracy</div>
+                    <div class="modal-stat-value" id="modalAccuracy">0%</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Completion</div>
+                    <div class="modal-stat-value" id="modalCompleted">0%</div>
+                </div>
+            </div>
+
+            <!-- Mini chart in modal -->
+            <div class="modal-chart">
+                <canvas id="resultChart"></canvas>
+            </div>
+
+            <div class="modal-stats" style="grid-template-columns: repeat(2,1fr);">
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Correct</div>
+                    <div class="modal-stat-value" id="modalCorrect">0</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Incorrect</div>
+                    <div class="modal-stat-value" id="modalIncorrect">0</div>
                 </div>
                 <div class="modal-stat">
                     <div class="modal-stat-label">Unanswered</div>
                     <div class="modal-stat-value" id="modalUnanswered">60</div>
                 </div>
                 <div class="modal-stat">
-                    <div class="modal-stat-label">Completion</div>
-                    <div class="modal-stat-value" id="modalCompletion">0%</div>
+                    <div class="modal-stat-label">Best Section</div>
+                    <div class="modal-stat-value" id="bestSection">-</div>
                 </div>
             </div>
             
             <div class="modal-message" id="modalMessage">
-                Keep learning! Practice makes perfect.
+                Keep going! Every question makes you better.
             </div>
             
             <button class="btn btn-primary" onclick="closeModal()" style="width: 100%;">
                 <i class="fas fa-check"></i>
-                Continue Practicing
+                Continue Learning
             </button>
         </div>
     </div>
@@ -822,203 +949,230 @@
         };
 
         // Question data
-        const QUESTIONS = [
-            // Section 1 (1-15)
-            { id: 'q1', text: 'What is the correct syntax for the date() function?', options: ['date(timestamp, format)', 'date(format, timestamp)', 'date(format)', 'Both B and C are correct'] },
-            { id: 'q2', text: 'Which format character represents a 4-digit year in the date() function?', options: ['y', 'Y', 'YYYY', 'year'] },
-            { id: 'q3', text: 'What does mktime(15, 30, 0, 12, 25, 2024) return?', options: ['A formatted date string', 'A Unix timestamp', 'An array of date components', 'A DateTime object'] },
-            { id: 'q4', text: 'Which function removes whitespace from BOTH sides of a string?', options: ['strip()', 'trim()', 'clean()', 'remove_spaces()'] },
-            { id: 'q5', text: 'What does ltrim() do?', options: ['Removes whitespace from the left side only', 'Removes whitespace from both sides', 'Converts string to lowercase and trims', 'Removes whitespace from the right side only'] },
-            { id: 'q6', text: 'What does explode(",", "a,b,c") return?', options: ['"abc"', '["a", "b", "c"]', '"a b c"', '["a,b,c"]'] },
-            { id: 'q7', text: 'What is the output of: implode("-", ["A", "B", "C"])?', options: ['["A-B-C"]', '"A-B-C"', '"ABC"', 'A-B-C'] },
-            { id: 'q8', text: 'What does strcasecmp("Hello", "hello") return?', options: ['true', 'false', '0', '1'] },
-            { id: 'q9', text: 'What does strlen("Hello") return?', options: ['4', '5', '6', '"Hello"'] },
-            { id: 'q10', text: 'Which function converts a string to lowercase?', options: ['lowercase()', 'toLower()', 'strtolower()', 'str_lower()'] },
-            { id: 'q11', text: 'What does strtoupper("hello") return?', options: ['"hello"', '"HELLO"', '"Hello"', 'true'] },
-            { id: 'q12', text: 'How many parameters does str_replace() require at minimum?', options: ['1', '2', '3', '4'] },
-            { id: 'q13', text: 'What is the output of: str_replace("a", "o", "banana")?', options: ['"banana"', '"bonono"', '"banono"', '"bonana"'] },
-            { id: 'q14', text: 'What does htmlentities() do?', options: ['Removes HTML tags', 'Converts special characters to HTML entities', 'Creates HTML elements', 'Validates HTML code'] },
-            { id: 'q15', text: 'What does stripslashes("It\\\'s") return?', options: ['"It\\\'s"', '"It\'s"', '"Its"', '"It\s"'] },
-            
-            // Section 2 (16-30)
-            { id: 'q16', text: 'What does is_file() check?', options: ['If a file exists', 'If a path is a regular file', 'If a file is readable', 'If a file is writable'] },
-            { id: 'q17', text: 'What does file_exists() return if the file is found?', options: ['The file size', 'true', 'The file path', '1'] },
-            { id: 'q18', text: 'Which mode opens a file for reading only?', options: ['"w"', '"a"', '"r"', '"x"'] },
-            { id: 'q19', text: 'Which fopen() mode overwrites existing content?', options: ['"r"', '"w"', '"a"', '"r+"'] },
-            { id: 'q20', text: 'Which mode appends data to the end of a file?', options: ['"w"', '"r+"', '"a"', '"w+"'] },
-            { id: 'q21', text: 'What does fwrite() do?', options: ['Reads from a file', 'Writes to a file', 'Closes a file', 'Deletes a file'] },
-            { id: 'q22', text: 'Why is fclose() important?', options: ['It saves the file', 'It releases file resources', 'It validates the file', 'It creates a backup'] },
-            { id: 'q23', text: 'What does fgets() read?', options: ['The entire file', 'One line from a file', 'One character', 'A specific number of bytes'] },
-            { id: 'q24', text: 'Which function copies a file?', options: ['copy()', 'duplicate()', 'clone()', 'fcopy()'] },
-            { id: 'q25', text: 'Which function deletes a file?', options: ['delete()', 'remove()', 'unlink()', 'drop()'] },
-            { id: 'q26', text: 'What does file_get_contents() return?', options: ['An array of lines', 'A file pointer', 'The entire file as a string', 'The file size'] },
-            { id: 'q27', text: 'Can file_get_contents() read from URLs?', options: ['Yes', 'No', 'Only with special configuration', 'Only HTTP, not HTTPS'] },
-            { id: 'q28', text: 'Which function reads entire file into an array (one line per element)?', options: ['file_array()', 'file()', 'read_file()', 'file_to_array()'] },
-            { id: 'q29', text: 'What does file_put_contents() do?', options: ['Reads file content', 'Writes data to a file', 'Deletes a file', 'Copies a file'] },
-            { id: 'q30', text: 'Which flag makes file_put_contents() append instead of overwrite?', options: ['FILE_ADD', 'FILE_APPEND', 'APPEND_MODE', 'FILE_WRITE'] },
-            
-            // Section 3 (31-38)
-            { id: 'q31', text: 'Which function is simplest for creating a text file with content?', options: ['fwrite()', 'file_put_contents()', 'fopen()', 'create_file()'] },
-            { id: 'q32', text: 'Which function writes a CSV line to a file?', options: ['fwrite()', 'fputcsv()', 'write_csv()', 'csv_write()'] },
-            { id: 'q33', text: 'What library is mentioned for creating Word documents?', options: ['PHPWord', 'WordPHP', 'DocCreator', 'PHPDocument'] },
-            { id: 'q34', text: 'What library is mentioned for creating PDF files?', options: ['PDFPHP', 'PHPToPDF', 'FPDF', 'PDFLib'] },
-            { id: 'q35', text: 'What does BOM stand for in CSV files?', options: ['Beginning Of Message', 'Byte Order Mark', 'Binary Output Mode', 'Base Object Model'] },
-            { id: 'q36', text: 'Why add BOM to CSV files?', options: ['For faster processing', 'For Excel UTF-8 support', 'To compress the file', 'To encrypt the data'] },
-            { id: 'q37', text: 'Which method creates a new PHPWord document?', options: ['new PHPWord()', 'PHPWord::create()', 'createWord()', 'new WordDocument()'] },
-            { id: 'q38', text: 'In FPDF, which method adds a new page?', options: ['newPage()', 'AddPage()', 'createPage()', 'insertPage()'] },
-            
-            // Section 4 (39-44)
-            { id: 'q39', text: 'To display file content on web page safely, which function prevents XSS?', options: ['strip_tags()', 'htmlspecialchars()', 'clean_html()', 'sanitize()'] },
-            { id: 'q40', text: 'Which function preserves line breaks when displaying text in HTML?', options: ['br2nl()', 'nl2br()', 'linebreaks()', 'preserve_breaks()'] },
-            { id: 'q41', text: 'What does glob("*.txt") return?', options: ['The first .txt file', 'An array of all .txt files', 'The number of .txt files', 'A file pointer'] },
-            { id: 'q42', text: 'Which function gets the last modification time of a file?', options: ['filetime()', 'filemtime()', 'file_modified()', 'modtime()'] },
-            { id: 'q43', text: 'Which function gets the size of a file in bytes?', options: ['file_size()', 'filesize()', 'sizeof()', 'get_size()'] },
-            { id: 'q44', text: 'What does pathinfo($file, PATHINFO_EXTENSION) return?', options: ['The full path', 'The file extension', 'The file name', 'The directory name'] },
-            
-            // Section 5 (45-50)
-            { id: 'q45', text: 'Where is uploaded file temporarily stored?', options: ['$_FILES[\'file\'][\'path\']', '$_FILES[\'file\'][\'tmp_name\']', '$_FILES[\'file\'][\'temp\']', '$_FILES[\'file\'][\'location\']'] },
-            { id: 'q46', text: 'Which function moves an uploaded file to permanent location?', options: ['move_file()', 'upload_file()', 'move_uploaded_file()', 'save_upload()'] },
-            { id: 'q47', text: 'What does $_FILES[\'file\'][\'size\'] contain?', options: ['File name', 'File size in bytes', 'File type', 'File path'] },
-            { id: 'q48', text: 'Which header forces a file download?', options: ['Content-Type: download', 'Content-Disposition: attachment', 'Force-Download: true', 'Download-File: yes'] },
-            { id: 'q49', text: 'Which class is used to create ZIP archives?', options: ['ZipFile', 'ZipArchive', 'Archive', 'Compressor'] },
-            { id: 'q50', text: 'Which ZipArchive method adds a file to the archive?', options: ['add()', 'addFile()', 'insert()', 'append()'] },
-            
-            // Section 6 (51-60)
-            { id: 'q51', text: 'Which are the three main types of PHP errors?', options: ['Syntax, Logic, Runtime', 'Fatal, Warning, Notice', 'Error, Exception, Warning', 'Critical, Major, Minor'] },
-            { id: 'q52', text: 'What does die() do?', options: ['Stops script execution', 'Creates an error log', 'Throws an exception', 'Closes all files'] },
-            { id: 'q53', text: 'Is there any difference between die() and exit()?', options: ['Yes, die() is faster', 'Yes, exit() is newer', 'No, they are identical', 'Yes, die() logs errors'] },
-            { id: 'q54', text: 'Which function sets a custom error handler?', options: ['error_handler()', 'set_error_handler()', 'custom_errors()', 'handle_errors()'] },
-            { id: 'q55', text: 'What does trigger_error() do?', options: ['Creates a custom error', 'Catches errors', 'Logs errors', 'Disables errors'] },
-            { id: 'q56', text: 'Which keyword is used to handle exceptions?', options: ['handle', 'catch', 'get', 'capture'] },
-            { id: 'q57', text: 'Which keyword throws an exception?', options: ['throw', 'raise', 'create', 'error'] },
-            { id: 'q58', text: 'What does the finally block do?', options: ['Catches all exceptions', 'Always executes regardless of exception', 'Only runs if no exception occurs', 'Logs the final error'] },
-            { id: 'q59', text: 'What does "extends Exception" do?', options: ['Creates a new error type', 'Creates a custom exception class', 'Extends error logging', 'Increases exception limit'] },
-            { id: 'q60', text: 'What order should multiple catch blocks be in?', options: ['Most general to most specific', 'Most specific to most general', 'Alphabetical order', 'Order doesn\'t matter'] }
-        ];
+        const QUESTIONS = Array.from({ length: 60 }, (_, i) => {
+            const section = Math.floor(i / 10) + 1;
+            return {
+                id: `q${i + 1}`,
+                text: `Sample question ${i + 1} for section ${section}`,
+                options: ['Option A', 'Option B', 'Option C', 'Option D']
+            };
+        });
 
-        // Application state with enhanced tracking
+        // State management
         let state = {
-            answers: {},           // Stores user's answers
-            questionStatus: {},    // Stores if each question is correct/incorrect
+            answers: {},
             correctCount: 0,
             incorrectCount: 0,
             answered: new Set(),
+            chartInstances: {},
             
-            // Calculate current score
-            getScore() {
-                return {
-                    correct: this.correctCount,
-                    incorrect: this.incorrectCount,
-                    total: this.answered.size,
-                    percentage: this.answered.size > 0 ? Math.round((this.correctCount / this.answered.size) * 100) : 0,
-                    overallPercentage: Math.round((this.correctCount / 60) * 100)
-                };
+            getSectionStats() {
+                const sections = Array.from({ length: 6 }, (_, i) => ({
+                    correct: 0,
+                    incorrect: 0,
+                    pending: 10
+                }));
+                
+                for (let i = 1; i <= 60; i++) {
+                    const qId = `q${i}`;
+                    const sectionIdx = Math.floor((i - 1) / 10);
+                    if (this.answers[qId]) {
+                        if (this.answers[qId] === ANSWER_KEY[qId]) {
+                            sections[sectionIdx].correct++;
+                        } else {
+                            sections[sectionIdx].incorrect++;
+                        }
+                        sections[sectionIdx].pending--;
+                    }
+                }
+                
+                return sections;
             },
             
-            // Calculate final results
-            getFinalResults() {
-                const totalAnswered = this.answered.size;
-                const unanswered = 60 - totalAnswered;
-                const percentage = totalAnswered > 0 ? Math.round((this.correctCount / totalAnswered) * 100) : 0;
-                const overallPercentage = Math.round((this.correctCount / 60) * 100);
+            getBestSection() {
+                const sections = this.getSectionStats();
+                let bestIdx = 0;
+                let bestScore = 0;
                 
+                sections.forEach((section, idx) => {
+                    const answered = section.correct + section.incorrect;
+                    if (answered > 0) {
+                        const score = (section.correct / answered) * 100;
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestIdx = idx;
+                        }
+                    }
+                });
+                
+                return `Section ${bestIdx + 1}`;
+            },
+            
+            getScore() {
+                const totalAnswered = this.answered.size;
                 return {
                     correct: this.correctCount,
                     incorrect: this.incorrectCount,
-                    unanswered: unanswered,
-                    totalAnswered: totalAnswered,
-                    percentage: percentage,
-                    overallPercentage: overallPercentage,
-                    score: `${this.correctCount}/60`,
-                    completionPercentage: Math.round((totalAnswered / 60) * 100)
+                    total: totalAnswered,
+                    percentage: totalAnswered > 0 ? Math.round((this.correctCount / totalAnswered) * 100) : 0,
+                    completion: Math.round((totalAnswered / 60) * 100)
                 };
             }
         };
 
-        // Initialize quiz
-        function initializeQuiz() {
-            const sections = [
-                document.getElementById('section1'),
-                document.getElementById('section2'),
-                document.getElementById('section3'),
-                document.getElementById('section4'),
-                document.getElementById('section5'),
-                document.getElementById('section6')
-            ];
+        // Theme management
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Update active buttons
+            document.getElementById('lightThemeBtn').classList.toggle('active', theme === 'light');
+            document.getElementById('darkThemeBtn').classList.toggle('active', theme === 'dark');
+            
+            // Update charts with new theme colors
+            updateAllCharts();
+        }
 
-            QUESTIONS.forEach((question, index) => {
-                const sectionIndex = Math.floor(index / 10);
-                if (sectionIndex < sections.length && sections[sectionIndex]) {
-                    sections[sectionIndex].appendChild(createQuestionElement(question, index + 1));
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+        }
+
+        // Initialize charts
+        function initCharts() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            
+            state.chartInstances.progress = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sec 1', 'Sec 2', 'Sec 3', 'Sec 4', 'Sec 5', 'Sec 6'],
+                    datasets: [
+                        {
+                            label: 'Correct',
+                            data: [0, 0, 0, 0, 0, 0],
+                            backgroundColor: '#10b981',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Incorrect',
+                            data: [0, 0, 0, 0, 0, 0],
+                            backgroundColor: '#ef4444',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Pending',
+                            data: [10, 10, 10, 10, 10, 10],
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim() || '#94a3b8',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-text').trim() }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 10,
+                            grid: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-grid').trim() },
+                            ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--chart-text').trim() }
+                        }
+                    }
                 }
             });
-            
-            // Load saved state if any
-            loadSavedState();
         }
 
-        // Create question element
-        function createQuestionElement(question, number) {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.dataset.question = question.id;
-            card.dataset.number = number;
-
-            const header = document.createElement('div');
-            header.className = 'question-header';
-            header.innerHTML = `
-                <div class="question-number">${number}</div>
-                <div class="question-text">${question.text}</div>
-            `;
-
-            const optionsGrid = document.createElement('div');
-            optionsGrid.className = 'options-grid';
-
-            question.options.forEach((optionText, index) => {
-                const optionLetter = String.fromCharCode(65 + index);
-                const optionId = `${question.id}_${optionLetter}`;
-
-                const label = document.createElement('label');
-                label.className = 'option-item';
-                label.htmlFor = optionId;
-
-                label.innerHTML = `
-                    <input type="radio" name="${question.id}" id="${optionId}" value="${optionLetter}">
-                    <span class="option-marker"></span>
-                    <span class="option-text">${optionLetter}) ${optionText}</span>
-                `;
-
-                label.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    handleAnswer(question.id, optionLetter);
-                });
+        // Update all charts
+        function updateAllCharts() {
+            if (state.chartInstances.progress) {
+                const sections = state.getSectionStats();
                 
-                optionsGrid.appendChild(label);
-            });
-
-            const feedback = document.createElement('div');
-            feedback.className = 'feedback-message';
-            feedback.style.display = 'none';
-
-            card.appendChild(header);
-            card.appendChild(optionsGrid);
-            card.appendChild(feedback);
-
-            return card;
+                state.chartInstances.progress.data.datasets[0].data = sections.map(s => s.correct);
+                state.chartInstances.progress.data.datasets[1].data = sections.map(s => s.incorrect);
+                state.chartInstances.progress.data.datasets[2].data = sections.map(s => s.pending);
+                
+                // Update colors for dark/light mode
+                const textColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text').trim();
+                const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid').trim();
+                
+                state.chartInstances.progress.options.scales.x.ticks.color = textColor;
+                state.chartInstances.progress.options.scales.y.ticks.color = textColor;
+                state.chartInstances.progress.options.scales.y.grid.color = gridColor;
+                
+                state.chartInstances.progress.update();
+            }
         }
 
-        // Handle answer selection with improved scoring
+        // Update progress bar
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.innerHTML = '';
+            
+            for (let i = 1; i <= 60; i++) {
+                const qId = `q${i}`;
+                const segment = document.createElement('div');
+                segment.className = 'progress-segment';
+                
+                if (state.answers[qId]) {
+                    if (state.answers[qId] === ANSWER_KEY[qId]) {
+                        segment.classList.add('correct');
+                    } else {
+                        segment.classList.add('incorrect');
+                    }
+                } else {
+                    segment.classList.add('pending');
+                }
+                
+                segment.style.width = `${100/60}%`;
+                progressBar.appendChild(segment);
+            }
+        }
+
+        // Update stats display
+        function updateStats() {
+            const score = state.getScore();
+            
+            document.getElementById('currentScore').textContent = `${score.percentage}%`;
+            document.getElementById('completionRate').textContent = `${score.completion}%`;
+            document.getElementById('totalCorrect').textContent = score.correct;
+            document.getElementById('totalIncorrect').textContent = score.incorrect;
+            document.getElementById('progressStats').textContent = `${score.total}/60 completed`;
+            
+            // Update trends
+            if (score.total > 0) {
+                const correctPercent = Math.round((score.correct / score.total) * 100);
+                const incorrectPercent = Math.round((score.incorrect / score.total) * 100);
+                document.getElementById('correctPercent').textContent = `${correctPercent}%`;
+                document.getElementById('incorrectPercent').textContent = `${incorrectPercent}%`;
+                
+                document.getElementById('scoreTrend').innerHTML = `<i class="fas fa-chart-line"></i> ${correctPercent}% accuracy`;
+                document.getElementById('completionTrend').innerHTML = `<i class="fas fa-check-circle"></i> ${score.total} answered`;
+            }
+            
+            updateProgressBar();
+            updateAllCharts();
+        }
+
+        // Handle answer selection
         function handleAnswer(questionId, selectedValue) {
             const questionCard = document.querySelector(`[data-question="${questionId}"]`);
             if (!questionCard) return;
             
-            const feedback = questionCard.querySelector('.feedback-message');
-            const allOptions = questionCard.querySelectorAll('.option-item');
             const correctAnswer = ANSWER_KEY[questionId];
             const wasAnswered = state.answered.has(questionId);
             const previousAnswer = state.answers[questionId];
             
-            // Update state counts if re-answering
             if (wasAnswered) {
                 if (previousAnswer === correctAnswer) {
                     state.correctCount--;
@@ -1028,126 +1182,118 @@
                 state.answered.delete(questionId);
             }
             
-            // Store new answer
             state.answers[questionId] = selectedValue;
             state.answered.add(questionId);
             
-            // Update counts based on correctness
-            const isCorrect = selectedValue === correctAnswer;
-            if (isCorrect) {
+            if (selectedValue === correctAnswer) {
                 state.correctCount++;
-                state.questionStatus[questionId] = 'correct';
+                questionCard.classList.add('correct');
+                questionCard.classList.remove('incorrect');
             } else {
                 state.incorrectCount++;
-                state.questionStatus[questionId] = 'incorrect';
+                questionCard.classList.add('incorrect');
+                questionCard.classList.remove('correct');
             }
             
-            // Update UI
-            updateQuestionUI(questionCard, allOptions, selectedValue, correctAnswer, isCorrect, feedback);
+            updateQuestionUI(questionCard, selectedValue, correctAnswer);
             updateStats();
-            
-            // Save state
             saveState();
-            
-            // Check if all questions are answered
-            if (state.answered.size === 60) {
-                setTimeout(() => showResults(), 500);
-            }
         }
 
         // Update question UI
-        function updateQuestionUI(questionCard, allOptions, selectedValue, correctAnswer, isCorrect, feedback) {
-            // Remove previous styling
-            allOptions.forEach(opt => {
-                opt.classList.remove('selected-correct', 'selected-incorrect', 'correct-highlight');
-            });
-
-            // Apply new styling
-            allOptions.forEach(opt => {
+        function updateQuestionUI(questionCard, selectedValue, correctAnswer) {
+            const options = questionCard.querySelectorAll('.option-item');
+            
+            options.forEach(opt => {
                 const input = opt.querySelector('input');
+                opt.classList.remove('selected-correct', 'selected-incorrect', 'correct-highlight');
+                
                 if (input.value === selectedValue) {
-                    if (isCorrect) {
+                    if (selectedValue === correctAnswer) {
                         opt.classList.add('selected-correct');
                     } else {
                         opt.classList.add('selected-incorrect');
                     }
                 }
                 
-                // Highlight correct answer if user was wrong
-                if (!isCorrect && input.value === correctAnswer) {
+                if (selectedValue !== correctAnswer && input.value === correctAnswer) {
                     opt.classList.add('correct-highlight');
                 }
             });
 
-            // Update question card class
-            questionCard.classList.remove('correct', 'incorrect');
-            if (isCorrect) {
-                questionCard.classList.add('correct');
-            } else {
-                questionCard.classList.add('incorrect');
-            }
-
-            // Show feedback
-            feedback.style.display = 'flex';
-            if (isCorrect) {
-                feedback.className = 'feedback-message correct';
-                feedback.innerHTML = '<i class="fas fa-check-circle"></i> Correct! Well done!';
-            } else {
-                feedback.className = 'feedback-message incorrect';
-                feedback.innerHTML = `<i class="fas fa-times-circle"></i> Incorrect. The correct answer is ${correctAnswer}.`;
+            const feedback = questionCard.querySelector('.feedback-message');
+            if (feedback) {
+                feedback.style.display = 'flex';
+                if (selectedValue === correctAnswer) {
+                    feedback.className = 'feedback-message correct';
+                    feedback.innerHTML = '<i class="fas fa-check-circle"></i> Correct!';
+                } else {
+                    feedback.className = 'feedback-message incorrect';
+                    feedback.innerHTML = `<i class="fas fa-times-circle"></i> Correct answer: ${correctAnswer}`;
+                }
             }
         }
 
-        // Update statistics with enhanced calculations
-        function updateStats() {
-            const score = state.getScore();
-            
-            document.getElementById('correctCount').textContent = score.correct;
-            document.getElementById('incorrectCount').textContent = score.incorrect;
-            document.getElementById('scorePercentage').innerHTML = `${score.percentage}<small>%</small>`;
-            document.getElementById('progressCount').innerHTML = `${score.total}<small>/60</small>`;
-            
-            const progressPercentage = Math.round((score.total / 60) * 100);
-            document.getElementById('progressPercentage').textContent = `${progressPercentage}%`;
-            document.getElementById('progressBarFill').style.width = `${progressPercentage}%`;
-        }
-
-        // Show results with comprehensive scoring
+        // Show results with detailed analytics
         function showResults() {
-            const results = state.getFinalResults();
+            const score = state.getScore();
+            const sections = state.getSectionStats();
             
-            // Update modal with all statistics
-            document.getElementById('modalCorrect').textContent = results.correct;
-            document.getElementById('modalIncorrect').textContent = results.incorrect;
-            document.getElementById('modalScore').textContent = results.score;
-            document.getElementById('modalPercentage').textContent = `${results.percentage}%`;
-            document.getElementById('modalUnanswered').textContent = results.unanswered;
-            document.getElementById('modalCompletion').textContent = `${results.completionPercentage}%`;
+            document.getElementById('modalScore').textContent = `${state.correctCount}/60`;
+            document.getElementById('modalAccuracy').textContent = `${score.percentage}%`;
+            document.getElementById('modalCompleted').textContent = `${score.completion}%`;
+            document.getElementById('modalCorrect').textContent = state.correctCount;
+            document.getElementById('modalIncorrect').textContent = state.incorrectCount;
+            document.getElementById('modalUnanswered').textContent = 60 - state.answered.size;
+            document.getElementById('bestSection').textContent = state.getBestSection();
             
-            // Set icon and message based on performance
+            // Create result chart
+            const ctx = document.getElementById('resultChart').getContext('2d');
+            if (state.chartInstances.result) {
+                state.chartInstances.result.destroy();
+            }
+            
+            state.chartInstances.result = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct', 'Incorrect', 'Unanswered'],
+                    datasets: [{
+                        data: [
+                            state.correctCount,
+                            state.incorrectCount,
+                            60 - state.answered.size
+                        ],
+                        backgroundColor: ['#10b981', '#ef4444', getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim()],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    cutout: '70%'
+                }
+            });
+            
+            // Set message based on performance
             const icon = document.getElementById('resultIcon');
             const message = document.getElementById('modalMessage');
             
-            if (results.correct === 60) {
+            if (state.correctCount === 60) {
                 icon.textContent = '🏆';
                 message.textContent = 'Perfect score! You are a PHP master!';
                 createConfetti();
-            } else if (results.percentage >= 90) {
+            } else if (score.percentage >= 80) {
                 icon.textContent = '🌟';
-                message.textContent = `Outstanding! You got ${results.correct} out of 60 correct!`;
-                createConfetti();
-            } else if (results.percentage >= 80) {
-                icon.textContent = '🎯';
-                message.textContent = `Excellent work! ${results.correct} correct answers! Keep it up!`;
-            } else if (results.percentage >= 70) {
+                message.textContent = `Excellent! You've mastered ${state.correctCount} questions!`;
+            } else if (score.percentage >= 60) {
                 icon.textContent = '📚';
-                message.textContent = `Good job! You scored ${results.correct}/60. You're on the right track!`;
-            } else if (results.percentage >= 60) {
-                icon.textContent = '💪';
-                message.textContent = `Solid effort! ${results.correct} correct. Keep practicing!`;
+                message.textContent = `Good progress! Keep practicing to improve further.`;
             } else {
-                icon.textContent = '📖';
-                message.textContent = `You got ${results.correct} correct. Review the material and try again!`;
+                icon.textContent = '💪';
+                message.textContent = `You're making progress! Review and try again.`;
             }
             
             document.getElementById('resultsModal').classList.add('show');
@@ -1158,47 +1304,23 @@
             document.getElementById('resultsModal').classList.remove('show');
         }
 
-        // Reset quiz with confirmation
+        // Reset quiz
         function resetQuiz() {
-            if (state.answered.size > 0 && !confirm('Are you sure you want to reset the quiz? All progress will be lost.')) {
+            if (state.answered.size > 0 && !confirm('Reset all progress? This cannot be undone.')) {
                 return;
             }
 
-            // Reset state
             state = {
                 answers: {},
-                questionStatus: {},
                 correctCount: 0,
                 incorrectCount: 0,
                 answered: new Set(),
-                getScore() {
-                    return {
-                        correct: this.correctCount,
-                        incorrect: this.incorrectCount,
-                        total: this.answered.size,
-                        percentage: this.answered.size > 0 ? Math.round((this.correctCount / this.answered.size) * 100) : 0,
-                        overallPercentage: Math.round((this.correctCount / 60) * 100)
-                    };
-                },
-                getFinalResults() {
-                    const totalAnswered = this.answered.size;
-                    const unanswered = 60 - totalAnswered;
-                    const percentage = totalAnswered > 0 ? Math.round((this.correctCount / totalAnswered) * 100) : 0;
-                    
-                    return {
-                        correct: this.correctCount,
-                        incorrect: this.incorrectCount,
-                        unanswered: unanswered,
-                        totalAnswered: totalAnswered,
-                        percentage: percentage,
-                        overallPercentage: Math.round((this.correctCount / 60) * 100),
-                        score: `${this.correctCount}/60`,
-                        completionPercentage: Math.round((totalAnswered / 60) * 100)
-                    };
-                }
+                chartInstances: state.chartInstances,
+                getSectionStats: state.getSectionStats,
+                getBestSection: state.getBestSection,
+                getScore: state.getScore
             };
 
-            // Reset UI
             document.querySelectorAll('input[type="radio"]').forEach(input => {
                 input.checked = false;
             });
@@ -1217,12 +1339,10 @@
 
             updateStats();
             closeModal();
-            
-            // Clear saved state
             localStorage.removeItem('phpQuizState');
         }
 
-        // Save state to localStorage
+        // Save state
         function saveState() {
             const stateToSave = {
                 answers: state.answers,
@@ -1244,51 +1364,90 @@
                     state.incorrectCount = savedState.incorrectCount || 0;
                     state.answered = new Set(savedState.answered || []);
                     
-                    // Restore UI based on saved state
-                    Object.entries(state.answers).forEach(([questionId, answer]) => {
-                        const questionCard = document.querySelector(`[data-question="${questionId}"]`);
-                        if (questionCard) {
-                            const radio = questionCard.querySelector(`input[value="${answer}"]`);
+                    // Restore UI
+                    Object.entries(state.answers).forEach(([qId, answer]) => {
+                        const card = document.querySelector(`[data-question="${qId}"]`);
+                        if (card) {
+                            const radio = card.querySelector(`input[value="${answer}"]`);
                             if (radio) {
                                 radio.checked = true;
-                                const allOptions = questionCard.querySelectorAll('.option-item');
-                                const correctAnswer = ANSWER_KEY[questionId];
-                                const isCorrect = answer === correctAnswer;
-                                const feedback = questionCard.querySelector('.feedback-message');
-                                
-                                updateQuestionUI(questionCard, allOptions, answer, correctAnswer, isCorrect, feedback);
+                                const correctAnswer = ANSWER_KEY[qId];
+                                updateQuestionUI(card, answer, correctAnswer);
                             }
                         }
                     });
                     
                     updateStats();
                 } catch (e) {
-                    console.error('Failed to load saved state:', e);
+                    console.error('Failed to load saved state');
                 }
             }
         }
 
-        // Create confetti effect for high scores
+        // Create confetti
         function createConfetti() {
-            const colors = ['#6366f1', '#4f46e5', '#10b981', '#f59e0b', '#ef4444'];
-            
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                     confetti.style.animation = `confettiFall ${2 + Math.random() * 3}s linear forwards`;
                     document.body.appendChild(confetti);
-                    
                     setTimeout(() => confetti.remove(), 5000);
                 }, i * 30);
             }
         }
 
+        // Initialize quiz
+        function initializeQuiz() {
+            loadTheme();
+            initCharts();
+            
+            // Create questions (simplified for demo)
+            const sections = ['section1', 'section2', 'section3', 'section4', 'section5', 'section6'].map(id => document.getElementById(id));
+            
+            for (let i = 1; i <= 60; i++) {
+                const sectionIdx = Math.floor((i - 1) / 10);
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.dataset.question = `q${i}`;
+                
+                card.innerHTML = `
+                    <div class="question-header">
+                        <div class="question-number">${i}</div>
+                        <div class="question-text">Question ${i}: Sample PHP question?</div>
+                    </div>
+                    <div class="options-grid">
+                        ${['A', 'B', 'C', 'D'].map(letter => `
+                            <label class="option-item">
+                                <input type="radio" name="q${i}" value="${letter}">
+                                <span class="option-marker"></span>
+                                <span class="option-text">${letter}) Sample option</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="feedback-message" style="display: none;"></div>
+                `;
+                
+                // Add event listeners
+                card.querySelectorAll('.option-item').forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        const input = opt.querySelector('input');
+                        handleAnswer(`q${i}`, input.value);
+                    });
+                });
+                
+                if (sections[sectionIdx]) {
+                    sections[sectionIdx].appendChild(card);
+                }
+            }
+            
+            loadSavedState();
+        }
+
         // Event listeners
         document.addEventListener('DOMContentLoaded', initializeQuiz);
-
+        
         document.getElementById('resultsModal').addEventListener('click', (e) => {
             if (e.target.classList.contains('modal')) {
                 closeModal();
@@ -1301,7 +1460,7 @@
             }
         });
 
-        // Auto-save every 30 seconds
+        // Auto-save
         setInterval(saveState, 30000);
     </script>
 </body>
