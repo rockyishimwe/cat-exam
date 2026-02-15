@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Mastery: File Processing & Error Handling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Design System */
+        :root {
+            --primary-50: #eef2ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            --primary-900: #312e81;
+            
+            --success-50: #ecfdf5;
+            --success-500: #10b981;
+            --success-600: #059669;
+            
+            --error-50: #fef2f2;
+            --error-500: #ef4444;
+            --error-600: #dc2626;
+            
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            line-height: 1.5;
+            color: var(--gray-900);
+        }
+
+        /* Container */
+        .quiz-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Header Card */
+        .header-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--gray-500);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-200);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-500);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-label i {
+            color: var(--primary-500);
+            font-size: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            line-height: 1.2;
+        }
+
+        .stat-value small {
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: var(--gray-400);
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin-top: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .progress-bar {
+            height: 0.5rem;
+            background: var(--gray-200);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .section-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .section-count {
+            margin-left: auto;
+            font-size: 0.875rem;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+        /* Question Card */
+        .question-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s ease;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-card:hover {
+            border-color: var(--primary-200);
+            box-shadow: var(--shadow-md);
+        }
+
+        .question-card.correct {
+            background: var(--success-50);
+            border-color: var(--success-500);
+        }
+
+        .question-card.incorrect {
+            background: var(--error-50);
+            border-color: var(--error-500);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-number {
+            width: 2rem;
+            height: 2rem;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .question-card.correct .question-number {
+            background: var(--success-500);
+            color: white;
+        }
+
+        .question-card.incorrect .question-number {
+            background: var(--error-500);
+            color: white;
+        }
+
+        .question-text {
+            font-weight: 500;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        /* Options */
+        .options-grid {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .option-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .option-item:hover {
+            background: var(--gray-100);
+            border-color: var(--primary-300);
+            transform: translateX(4px);
+        }
+
+        .option-item input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .option-marker {
+            width: 1.5rem;
+            height: 1.5rem;
+            background: white;
+            border: 2px solid var(--gray-300);
+            border-radius: 50%;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.15s ease;
+        }
+
+        .option-item input[type="radio"]:checked + .option-marker {
+            background: var(--primary-500);
+            border-color: var(--primary-500);
+        }
+
+        .option-item input[type="radio"]:checked + .option-marker::after {
+            content: "✓";
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--gray-700);
+        }
+
+        .option-item.correct-highlight {
+            background: var(--success-50);
+            border-color: var(--success-500);
+        }
+
+        .option-item.correct-highlight .option-marker {
+            border-color: var(--success-500);
+            background: var(--success-500);
+        }
+
+        .option-item.selected-correct {
+            background: var(--success-500);
+            border-color: var(--success-600);
+        }
+
+        .option-item.selected-correct .option-text {
+            color: white;
+            font-weight: 500;
+        }
+
+        .option-item.selected-correct .option-marker {
+            border-color: white;
+            background: white;
+            color: var(--success-500);
+        }
+
+        .option-item.selected-incorrect {
+            background: var(--error-500);
+            border-color: var(--error-600);
+        }
+
+        .option-item.selected-incorrect .option-text {
+            color: white;
+            font-weight: 500;
+        }
+
+        .option-item.selected-incorrect .option-marker {
+            border-color: white;
+            background: white;
+            color: var(--error-500);
+        }
+
+        /* Feedback */
+        .feedback-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.2s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback-message i {
+            font-size: 1.1rem;
+        }
+
+        .feedback-message.correct {
+            background: var(--success-50);
+            color: var(--success-600);
+            border: 1px solid var(--success-200);
+        }
+
+        .feedback-message.incorrect {
+            background: var(--error-50);
+            color: var(--error-600);
+            border: 1px solid var(--error-200);
+        }
+
+        /* Action Buttons */
+        .action-bar {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .modal-stat {
+            background: var(--gray-50);
+            padding: 1.25rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .modal-stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .modal-stat-value.correct {
+            color: var(--success-500);
+        }
+
+        .modal-stat-value.incorrect {
+            color: var(--error-500);
+        }
+
+        .modal-message {
+            background: var(--primary-50);
+            padding: 1.25rem;
+            border-radius: var(--radius-lg);
+            color: var(--primary-700);
+            font-weight: 500;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-500);
+            position: fixed;
+            top: -10px;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .action-bar {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 0.75rem;
+            background: var(--gray-800);
+            color: white;
+            font-size: 0.75rem;
+            border-radius: var(--radius-sm);
+            white-space: nowrap;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Header -->
+        <div class="header-card">
+            <h1 class="title">PHP Mastery</h1>
+            <p class="subtitle">File Processing & Error Handling</p>
+            
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <i class="fas fa-check-circle"></i>
+                        Correct
+                    </div>
+                    <div class="stat-value" id="correctCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <i class="fas fa-times-circle"></i>
+                        Incorrect
+                    </div>
+                    <div class="stat-value" id="incorrectCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <i class="fas fa-percent"></i>
+                        Score
+                    </div>
+                    <div class="stat-value" id="scorePercentage">0<small>%</small></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        <i class="fas fa-tasks"></i>
+                        Progress
+                    </div>
+                    <div class="stat-value" id="progressCount">0<small>/60</small></div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span>Overall Progress</span>
+                    <span id="progressPercentage">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBarFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sections -->
+        <div id="quizContent">
+            <!-- Section 1: Pre-defined Functions -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h2 class="section-title">Pre-defined Functions</h2>
+                <span class="section-count">1-15</span>
+            </div>
+            
+            <div id="section1" class="questions-section"></div>
+
+            <!-- Section 2: File Processing Functions -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-file-code"></i>
+                </div>
+                <h2 class="section-title">File Processing</h2>
+                <span class="section-count">16-30</span>
+            </div>
+            
+            <div id="section2" class="questions-section"></div>
+
+            <!-- Section 3: File Creation -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h2 class="section-title">File Creation</h2>
+                <span class="section-count">31-38</span>
+            </div>
+            
+            <div id="section3" class="questions-section"></div>
+
+            <!-- Section 4: File Operations -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h2 class="section-title">File Operations</h2>
+                <span class="section-count">39-44</span>
+            </div>
+            
+            <div id="section4" class="questions-section"></div>
+
+            <!-- Section 5: Upload and Download -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h2 class="section-title">Upload & Download</h2>
+                <span class="section-count">45-50</span>
+            </div>
+            
+            <div id="section5" class="questions-section"></div>
+
+            <!-- Section 6: Error Handling -->
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2 class="section-title">Error & Exception Handling</h2>
+                <span class="section-count">51-60</span>
+            </div>
+            
+            <div id="section6" class="questions-section"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+            <button class="btn btn-primary" onclick="showResults()">
+                <i class="fas fa-chart-bar"></i>
+                View Results
+            </button>
+            <button class="btn btn-secondary" onclick="resetQuiz()">
+                <i class="fas fa-redo-alt"></i>
+                Reset Quiz
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon" id="resultIcon">🎉</div>
+                <h2 class="modal-title">Quiz Complete!</h2>
+                <p class="subtitle" id="resultSubtitle">Here's how you did</p>
+            </div>
+            
+            <div class="modal-stats">
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Correct Answers</div>
+                    <div class="modal-stat-value correct" id="modalCorrect">0</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Incorrect Answers</div>
+                    <div class="modal-stat-value incorrect" id="modalIncorrect">0</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Completion</div>
+                    <div class="modal-stat-value" id="modalCompletion">0%</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Unanswered</div>
+                    <div class="modal-stat-value" id="modalUnanswered">60</div>
+                </div>
+            </div>
+            
+            <div class="modal-message" id="modalMessage">
+                Keep learning! Practice makes perfect.
+            </div>
+            
+            <button class="btn btn-primary" onclick="closeModal()" style="width: 100%;">
+                <i class="fas fa-check"></i>
+                Continue Practicing
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Answer key
+        const ANSWER_KEY = {
+            q1: 'D', q2: 'B', q3: 'B', q4: 'B', q5: 'A', q6: 'B', q7: 'B', q8: 'C', q9: 'B', q10: 'C',
+            q11: 'B', q12: 'C', q13: 'B', q14: 'B', q15: 'B', q16: 'B', q17: 'B', q18: 'C', q19: 'B', q20: 'C',
+            q21: 'B', q22: 'B', q23: 'B', q24: 'A', q25: 'C', q26: 'C', q27: 'A', q28: 'B', q29: 'B', q30: 'B',
+            q31: 'B', q32: 'B', q33: 'A', q34: 'C', q35: 'B', q36: 'B', q37: 'A', q38: 'B', q39: 'B', q40: 'B',
+            q41: 'B', q42: 'B', q43: 'B', q44: 'B', q45: 'B', q46: 'C', q47: 'B', q48: 'B', q49: 'B', q50: 'B',
+            q51: 'A', q52: 'A', q53: 'C', q54: 'B', q55: 'A', q56: 'B', q57: 'A', q58: 'B', q59: 'B', q60: 'B'
+        };
+
+        // Question data
+        const QUESTIONS = [
+            // Section 1 (1-15)
+            { id: 'q1', text: 'What is the correct syntax for the date() function?', options: ['date(timestamp, format)', 'date(format, timestamp)', 'date(format)', 'Both B and C are correct'] },
+            { id: 'q2', text: 'Which format character represents a 4-digit year in the date() function?', options: ['y', 'Y', 'YYYY', 'year'] },
+            { id: 'q3', text: 'What does mktime(15, 30, 0, 12, 25, 2024) return?', options: ['A formatted date string', 'A Unix timestamp', 'An array of date components', 'A DateTime object'] },
+            { id: 'q4', text: 'Which function removes whitespace from BOTH sides of a string?', options: ['strip()', 'trim()', 'clean()', 'remove_spaces()'] },
+            { id: 'q5', text: 'What does ltrim() do?', options: ['Removes whitespace from the left side only', 'Removes whitespace from both sides', 'Converts string to lowercase and trims', 'Removes whitespace from the right side only'] },
+            { id: 'q6', text: 'What does explode(",", "a,b,c") return?', options: ['"abc"', '["a", "b", "c"]', '"a b c"', '["a,b,c"]'] },
+            { id: 'q7', text: 'What is the output of: implode("-", ["A", "B", "C"])?', options: ['["A-B-C"]', '"A-B-C"', '"ABC"', 'A-B-C'] },
+            { id: 'q8', text: 'What does strcasecmp("Hello", "hello") return?', options: ['true', 'false', '0', '1'] },
+            { id: 'q9', text: 'What does strlen("Hello") return?', options: ['4', '5', '6', '"Hello"'] },
+            { id: 'q10', text: 'Which function converts a string to lowercase?', options: ['lowercase()', 'toLower()', 'strtolower()', 'str_lower()'] },
+            { id: 'q11', text: 'What does strtoupper("hello") return?', options: ['"hello"', '"HELLO"', '"Hello"', 'true'] },
+            { id: 'q12', text: 'How many parameters does str_replace() require at minimum?', options: ['1', '2', '3', '4'] },
+            { id: 'q13', text: 'What is the output of: str_replace("a", "o", "banana")?', options: ['"banana"', '"bonono"', '"banono"', '"bonana"'] },
+            { id: 'q14', text: 'What does htmlentities() do?', options: ['Removes HTML tags', 'Converts special characters to HTML entities', 'Creates HTML elements', 'Validates HTML code'] },
+            { id: 'q15', text: 'What does stripslashes("It\\\'s") return?', options: ['"It\\\'s"', '"It\'s"', '"Its"', '"It\s"'] },
+            
+            // Section 2 (16-30)
+            { id: 'q16', text: 'What does is_file() check?', options: ['If a file exists', 'If a path is a regular file', 'If a file is readable', 'If a file is writable'] },
+            { id: 'q17', text: 'What does file_exists() return if the file is found?', options: ['The file size', 'true', 'The file path', '1'] },
+            { id: 'q18', text: 'Which mode opens a file for reading only?', options: ['"w"', '"a"', '"r"', '"x"'] },
+            { id: 'q19', text: 'Which fopen() mode overwrites existing content?', options: ['"r"', '"w"', '"a"', '"r+"'] },
+            { id: 'q20', text: 'Which mode appends data to the end of a file?', options: ['"w"', '"r+"', '"a"', '"w+"'] },
+            { id: 'q21', text: 'What does fwrite() do?', options: ['Reads from a file', 'Writes to a file', 'Closes a file', 'Deletes a file'] },
+            { id: 'q22', text: 'Why is fclose() important?', options: ['It saves the file', 'It releases file resources', 'It validates the file', 'It creates a backup'] },
+            { id: 'q23', text: 'What does fgets() read?', options: ['The entire file', 'One line from a file', 'One character', 'A specific number of bytes'] },
+            { id: 'q24', text: 'Which function copies a file?', options: ['copy()', 'duplicate()', 'clone()', 'fcopy()'] },
+            { id: 'q25', text: 'Which function deletes a file?', options: ['delete()', 'remove()', 'unlink()', 'drop()'] },
+            { id: 'q26', text: 'What does file_get_contents() return?', options: ['An array of lines', 'A file pointer', 'The entire file as a string', 'The file size'] },
+            { id: 'q27', text: 'Can file_get_contents() read from URLs?', options: ['Yes', 'No', 'Only with special configuration', 'Only HTTP, not HTTPS'] },
+            { id: 'q28', text: 'Which function reads entire file into an array (one line per element)?', options: ['file_array()', 'file()', 'read_file()', 'file_to_array()'] },
+            { id: 'q29', text: 'What does file_put_contents() do?', options: ['Reads file content', 'Writes data to a file', 'Deletes a file', 'Copies a file'] },
+            { id: 'q30', text: 'Which flag makes file_put_contents() append instead of overwrite?', options: ['FILE_ADD', 'FILE_APPEND', 'APPEND_MODE', 'FILE_WRITE'] },
+            
+            // Section 3 (31-38)
+            { id: 'q31', text: 'Which function is simplest for creating a text file with content?', options: ['fwrite()', 'file_put_contents()', 'fopen()', 'create_file()'] },
+            { id: 'q32', text: 'Which function writes a CSV line to a file?', options: ['fwrite()', 'fputcsv()', 'write_csv()', 'csv_write()'] },
+            { id: 'q33', text: 'What library is mentioned for creating Word documents?', options: ['PHPWord', 'WordPHP', 'DocCreator', 'PHPDocument'] },
+            { id: 'q34', text: 'What library is mentioned for creating PDF files?', options: ['PDFPHP', 'PHPToPDF', 'FPDF', 'PDFLib'] },
+            { id: 'q35', text: 'What does BOM stand for in CSV files?', options: ['Beginning Of Message', 'Byte Order Mark', 'Binary Output Mode', 'Base Object Model'] },
+            { id: 'q36', text: 'Why add BOM to CSV files?', options: ['For faster processing', 'For Excel UTF-8 support', 'To compress the file', 'To encrypt the data'] },
+            { id: 'q37', text: 'Which method creates a new PHPWord document?', options: ['new PHPWord()', 'PHPWord::create()', 'createWord()', 'new WordDocument()'] },
+            { id: 'q38', text: 'In FPDF, which method adds a new page?', options: ['newPage()', 'AddPage()', 'createPage()', 'insertPage()'] },
+            
+            // Section 4 (39-44)
+            { id: 'q39', text: 'To display file content on web page safely, which function prevents XSS?', options: ['strip_tags()', 'htmlspecialchars()', 'clean_html()', 'sanitize()'] },
+            { id: 'q40', text: 'Which function preserves line breaks when displaying text in HTML?', options: ['br2nl()', 'nl2br()', 'linebreaks()', 'preserve_breaks()'] },
+            { id: 'q41', text: 'What does glob("*.txt") return?', options: ['The first .txt file', 'An array of all .txt files', 'The number of .txt files', 'A file pointer'] },
+            { id: 'q42', text: 'Which function gets the last modification time of a file?', options: ['filetime()', 'filemtime()', 'file_modified()', 'modtime()'] },
+            { id: 'q43', text: 'Which function gets the size of a file in bytes?', options: ['file_size()', 'filesize()', 'sizeof()', 'get_size()'] },
+            { id: 'q44', text: 'What does pathinfo($file, PATHINFO_EXTENSION) return?', options: ['The full path', 'The file extension', 'The file name', 'The directory name'] },
+            
+            // Section 5 (45-50)
+            { id: 'q45', text: 'Where is uploaded file temporarily stored?', options: ['$_FILES[\'file\'][\'path\']', '$_FILES[\'file\'][\'tmp_name\']', '$_FILES[\'file\'][\'temp\']', '$_FILES[\'file\'][\'location\']'] },
+            { id: 'q46', text: 'Which function moves an uploaded file to permanent location?', options: ['move_file()', 'upload_file()', 'move_uploaded_file()', 'save_upload()'] },
+            { id: 'q47', text: 'What does $_FILES[\'file\'][\'size\'] contain?', options: ['File name', 'File size in bytes', 'File type', 'File path'] },
+            { id: 'q48', text: 'Which header forces a file download?', options: ['Content-Type: download', 'Content-Disposition: attachment', 'Force-Download: true', 'Download-File: yes'] },
+            { id: 'q49', text: 'Which class is used to create ZIP archives?', options: ['ZipFile', 'ZipArchive', 'Archive', 'Compressor'] },
+            { id: 'q50', text: 'Which ZipArchive method adds a file to the archive?', options: ['add()', 'addFile()', 'insert()', 'append()'] },
+            
+            // Section 6 (51-60)
+            { id: 'q51', text: 'Which are the three main types of PHP errors?', options: ['Syntax, Logic, Runtime', 'Fatal, Warning, Notice', 'Error, Exception, Warning', 'Critical, Major, Minor'] },
+            { id: 'q52', text: 'What does die() do?', options: ['Stops script execution', 'Creates an error log', 'Throws an exception', 'Closes all files'] },
+            { id: 'q53', text: 'Is there any difference between die() and exit()?', options: ['Yes, die() is faster', 'Yes, exit() is newer', 'No, they are identical', 'Yes, die() logs errors'] },
+            { id: 'q54', text: 'Which function sets a custom error handler?', options: ['error_handler()', 'set_error_handler()', 'custom_errors()', 'handle_errors()'] },
+            { id: 'q55', text: 'What does trigger_error() do?', options: ['Creates a custom error', 'Catches errors', 'Logs errors', 'Disables errors'] },
+            { id: 'q56', text: 'Which keyword is used to handle exceptions?', options: ['handle', 'catch', 'get', 'capture'] },
+            { id: 'q57', text: 'Which keyword throws an exception?', options: ['throw', 'raise', 'create', 'error'] },
+            { id: 'q58', text: 'What does the finally block do?', options: ['Catches all exceptions', 'Always executes regardless of exception', 'Only runs if no exception occurs', 'Logs the final error'] },
+            { id: 'q59', text: 'What does "extends Exception" do?', options: ['Creates a new error type', 'Creates a custom exception class', 'Extends error logging', 'Increases exception limit'] },
+            { id: 'q60', text: 'What order should multiple catch blocks be in?', options: ['Most general to most specific', 'Most specific to most general', 'Alphabetical order', 'Order doesn\'t matter'] }
+        ];
+
+        // Application state
+        let state = {
+            answers: {},
+            correctCount: 0,
+            incorrectCount: 0,
+            answered: new Set()
+        };
+
+        // Initialize quiz
+        function initializeQuiz() {
+            const sections = [
+                document.getElementById('section1'),
+                document.getElementById('section2'),
+                document.getElementById('section3'),
+                document.getElementById('section4'),
+                document.getElementById('section5'),
+                document.getElementById('section6')
+            ];
+
+            QUESTIONS.forEach((question, index) => {
+                const sectionIndex = Math.floor(index / 10); // Rough section division
+                if (sectionIndex < sections.length) {
+                    sections[sectionIndex].appendChild(createQuestionElement(question, index + 1));
+                }
+            });
+        }
+
+        // Create question element
+        function createQuestionElement(question, number) {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.dataset.question = question.id;
+
+            const header = document.createElement('div');
+            header.className = 'question-header';
+            header.innerHTML = `
+                <div class="question-number">${number}</div>
+                <div class="question-text">${question.text}</div>
+            `;
+
+            const optionsGrid = document.createElement('div');
+            optionsGrid.className = 'options-grid';
+
+            question.options.forEach((optionText, index) => {
+                const optionLetter = String.fromCharCode(65 + index); // A, B, C, D
+                const optionId = `${question.id}_${optionLetter}`;
+
+                const label = document.createElement('label');
+                label.className = 'option-item';
+                label.htmlFor = optionId;
+
+                label.innerHTML = `
+                    <input type="radio" name="${question.id}" id="${optionId}" value="${optionLetter}">
+                    <span class="option-marker"></span>
+                    <span class="option-text">${optionLetter}) ${optionText}</span>
+                `;
+
+                label.addEventListener('click', () => handleAnswer(question.id, optionLetter));
+                optionsGrid.appendChild(label);
+            });
+
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback-message';
+            feedback.style.display = 'none';
+
+            card.appendChild(header);
+            card.appendChild(optionsGrid);
+            card.appendChild(feedback);
+
+            return card;
+        }
+
+        // Handle answer selection
+        function handleAnswer(questionId, selectedValue) {
+            const questionCard = document.querySelector(`[data-question="${questionId}"]`);
+            const feedback = questionCard.querySelector('.feedback-message');
+            const allOptions = questionCard.querySelectorAll('.option-item');
+            const correctAnswer = ANSWER_KEY[questionId];
+            
+            // Remove previous styling
+            allOptions.forEach(opt => {
+                opt.classList.remove('selected-correct', 'selected-incorrect', 'correct-highlight');
+            });
+
+            // Update state
+            if (!state.answered.has(questionId)) {
+                state.answered.add(questionId);
+            } else {
+                // Adjust counts if re-answering
+                if (state.answers[questionId] === correctAnswer) {
+                    state.correctCount--;
+                } else {
+                    state.incorrectCount--;
+                }
+            }
+
+            state.answers[questionId] = selectedValue;
+
+            // Apply styles and feedback
+            allOptions.forEach(opt => {
+                const input = opt.querySelector('input');
+                if (input.checked) {
+                    if (selectedValue === correctAnswer) {
+                        opt.classList.add('selected-correct');
+                        questionCard.classList.add('correct');
+                        questionCard.classList.remove('incorrect');
+                        state.correctCount++;
+                    } else {
+                        opt.classList.add('selected-incorrect');
+                        questionCard.classList.add('incorrect');
+                        questionCard.classList.remove('correct');
+                        state.incorrectCount++;
+                    }
+                }
+                
+                // Highlight correct answer if wrong
+                if (selectedValue !== correctAnswer && input.value === correctAnswer) {
+                    opt.classList.add('correct-highlight');
+                }
+            });
+
+            // Show feedback
+            feedback.style.display = 'flex';
+            if (selectedValue === correctAnswer) {
+                feedback.className = 'feedback-message correct';
+                feedback.innerHTML = '<i class="fas fa-check-circle"></i> Correct! Well done!';
+            } else {
+                feedback.className = 'feedback-message incorrect';
+                feedback.innerHTML = `<i class="fas fa-times-circle"></i> Incorrect. The correct answer is ${correctAnswer}.`;
+            }
+
+            updateStats();
+
+            // Check if all questions answered
+            if (state.answered.size === 60) {
+                setTimeout(() => showResults(), 500);
+            }
+        }
+
+        // Update statistics
+        function updateStats() {
+            const answeredCount = state.answered.size;
+            const percentage = answeredCount > 0 ? Math.round((state.correctCount / answeredCount) * 100) : 0;
+            
+            document.getElementById('correctCount').textContent = state.correctCount;
+            document.getElementById('incorrectCount').textContent = state.incorrectCount;
+            document.getElementById('scorePercentage').innerHTML = `${percentage}<small>%</small>`;
+            document.getElementById('progressCount').innerHTML = `${answeredCount}<small>/60</small>`;
+            
+            const progressPercentage = Math.round((answeredCount / 60) * 100);
+            document.getElementById('progressPercentage').textContent = `${progressPercentage}%`;
+            document.getElementById('progressBarFill').style.width = `${progressPercentage}%`;
+        }
+
+        // Show results modal
+        function showResults() {
+            const answeredCount = state.answered.size;
+            const unanswered = 60 - answeredCount;
+            const percentage = answeredCount > 0 ? Math.round((state.correctCount / answeredCount) * 100) : 0;
+            
+            // Update modal
+            document.getElementById('modalCorrect').textContent = state.correctCount;
+            document.getElementById('modalIncorrect').textContent = state.incorrectCount;
+            document.getElementById('modalCompletion').textContent = `${percentage}%`;
+            document.getElementById('modalUnanswered').textContent = unanswered;
+            
+            // Set message and icon based on performance
+            const icon = document.getElementById('resultIcon');
+            const message = document.getElementById('modalMessage');
+            
+            if (percentage >= 90) {
+                icon.textContent = '🏆';
+                message.textContent = 'Outstanding! You\'re a PHP expert!';
+                createConfetti();
+            } else if (percentage >= 75) {
+                icon.textContent = '🌟';
+                message.textContent = 'Excellent work! You have a strong understanding!';
+            } else if (percentage >= 60) {
+                icon.textContent = '📚';
+                message.textContent = 'Good job! Keep practicing to improve!';
+            } else {
+                icon.textContent = '💪';
+                message.textContent = 'Keep learning! Review the material and try again.';
+            }
+            
+            document.getElementById('resultsModal').classList.add('show');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('resultsModal').classList.remove('show');
+        }
+
+        // Reset quiz
+        function resetQuiz() {
+            if (state.answered.size > 0 && !confirm('Are you sure you want to reset the quiz? All progress will be lost.')) {
+                return;
+            }
+
+            // Reset state
+            state = {
+                answers: {},
+                correctCount: 0,
+                incorrectCount: 0,
+                answered: new Set()
+            };
+
+            // Reset UI
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+
+            document.querySelectorAll('.question-card').forEach(card => {
+                card.classList.remove('correct', 'incorrect');
+            });
+
+            document.querySelectorAll('.option-item').forEach(opt => {
+                opt.classList.remove('selected-correct', 'selected-incorrect', 'correct-highlight');
+            });
+
+            document.querySelectorAll('.feedback-message').forEach(fb => {
+                fb.style.display = 'none';
+            });
+
+            updateStats();
+            closeModal();
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#6366f1', '#4f46e5', '#10b981', '#f59e0b', '#ef4444'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = `confettiFall ${2 + Math.random() * 3}s linear forwards`;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 30);
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('resultsModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeModal();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('resultsModal').classList.contains('show')) {
+                closeModal();
+            }
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initializeQuiz);
+    </script>
+</body>
+</html>
