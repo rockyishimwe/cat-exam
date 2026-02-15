@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Design System */
+        /* [Previous CSS styles remain exactly the same as above] */
         :root {
             --primary-50: #eef2ff;
             --primary-100: #e0e7ff;
@@ -52,7 +52,6 @@
             --radius-xl: 1.5rem;
         }
 
-        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -68,13 +67,11 @@
             color: var(--gray-900);
         }
 
-        /* Container */
         .quiz-container {
             max-width: 1000px;
             margin: 0 auto;
         }
 
-        /* Header Card */
         .header-card {
             background: white;
             border-radius: var(--radius-xl);
@@ -111,7 +108,6 @@
             font-weight: 400;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -161,7 +157,6 @@
             color: var(--gray-400);
         }
 
-        /* Progress Bar */
         .progress-section {
             margin-top: 1.5rem;
         }
@@ -190,7 +185,6 @@
             width: 0%;
         }
 
-        /* Section Headers */
         .section-header {
             display: flex;
             align-items: center;
@@ -224,7 +218,6 @@
             font-weight: 500;
         }
 
-        /* Question Card */
         .question-card {
             background: white;
             border-radius: var(--radius-lg);
@@ -297,7 +290,6 @@
             line-height: 1.6;
         }
 
-        /* Options */
         .options-grid {
             display: grid;
             gap: 0.75rem;
@@ -402,7 +394,6 @@
             color: var(--error-500);
         }
 
-        /* Feedback */
         .feedback-message {
             margin-top: 1rem;
             padding: 1rem;
@@ -442,7 +433,6 @@
             border: 1px solid var(--error-200);
         }
 
-        /* Action Buttons */
         .action-bar {
             display: flex;
             gap: 1rem;
@@ -488,7 +478,6 @@
             box-shadow: var(--shadow-md);
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -593,7 +582,6 @@
             margin: 1.5rem 0;
         }
 
-        /* Confetti */
         .confetti {
             position: fixed;
             width: 10px;
@@ -614,7 +602,6 @@
             }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
@@ -640,34 +627,6 @@
                 width: 100%;
                 justify-content: center;
             }
-        }
-
-        /* Loading State */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-
-        .tooltip:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 0.5rem 0.75rem;
-            background: var(--gray-800);
-            color: white;
-            font-size: 0.75rem;
-            border-radius: var(--radius-sm);
-            white-space: nowrap;
-            margin-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -808,9 +767,9 @@
     <div class="modal" id="resultsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-icon" id="resultIcon">🎉</div>
-                <h2 class="modal-title">Quiz Complete!</h2>
-                <p class="subtitle" id="resultSubtitle">Here's how you did</p>
+                <div class="modal-icon" id="resultIcon">📊</div>
+                <h2 class="modal-title">Quiz Results</h2>
+                <p class="subtitle" id="resultSubtitle">Here's your performance breakdown</p>
             </div>
             
             <div class="modal-stats">
@@ -823,12 +782,20 @@
                     <div class="modal-stat-value incorrect" id="modalIncorrect">0</div>
                 </div>
                 <div class="modal-stat">
-                    <div class="modal-stat-label">Completion</div>
-                    <div class="modal-stat-value" id="modalCompletion">0%</div>
+                    <div class="modal-stat-label">Total Score</div>
+                    <div class="modal-stat-value" id="modalScore">0/60</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Percentage</div>
+                    <div class="modal-stat-value" id="modalPercentage">0%</div>
                 </div>
                 <div class="modal-stat">
                     <div class="modal-stat-label">Unanswered</div>
                     <div class="modal-stat-value" id="modalUnanswered">60</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="modal-stat-label">Completion</div>
+                    <div class="modal-stat-value" id="modalCompletion">0%</div>
                 </div>
             </div>
             
@@ -929,12 +896,43 @@
             { id: 'q60', text: 'What order should multiple catch blocks be in?', options: ['Most general to most specific', 'Most specific to most general', 'Alphabetical order', 'Order doesn\'t matter'] }
         ];
 
-        // Application state
+        // Application state with enhanced tracking
         let state = {
-            answers: {},
+            answers: {},           // Stores user's answers
+            questionStatus: {},    // Stores if each question is correct/incorrect
             correctCount: 0,
             incorrectCount: 0,
-            answered: new Set()
+            answered: new Set(),
+            
+            // Calculate current score
+            getScore() {
+                return {
+                    correct: this.correctCount,
+                    incorrect: this.incorrectCount,
+                    total: this.answered.size,
+                    percentage: this.answered.size > 0 ? Math.round((this.correctCount / this.answered.size) * 100) : 0,
+                    overallPercentage: Math.round((this.correctCount / 60) * 100)
+                };
+            },
+            
+            // Calculate final results
+            getFinalResults() {
+                const totalAnswered = this.answered.size;
+                const unanswered = 60 - totalAnswered;
+                const percentage = totalAnswered > 0 ? Math.round((this.correctCount / totalAnswered) * 100) : 0;
+                const overallPercentage = Math.round((this.correctCount / 60) * 100);
+                
+                return {
+                    correct: this.correctCount,
+                    incorrect: this.incorrectCount,
+                    unanswered: unanswered,
+                    totalAnswered: totalAnswered,
+                    percentage: percentage,
+                    overallPercentage: overallPercentage,
+                    score: `${this.correctCount}/60`,
+                    completionPercentage: Math.round((totalAnswered / 60) * 100)
+                };
+            }
         };
 
         // Initialize quiz
@@ -949,11 +947,14 @@
             ];
 
             QUESTIONS.forEach((question, index) => {
-                const sectionIndex = Math.floor(index / 10); // Rough section division
-                if (sectionIndex < sections.length) {
+                const sectionIndex = Math.floor(index / 10);
+                if (sectionIndex < sections.length && sections[sectionIndex]) {
                     sections[sectionIndex].appendChild(createQuestionElement(question, index + 1));
                 }
             });
+            
+            // Load saved state if any
+            loadSavedState();
         }
 
         // Create question element
@@ -961,6 +962,7 @@
             const card = document.createElement('div');
             card.className = 'question-card';
             card.dataset.question = question.id;
+            card.dataset.number = number;
 
             const header = document.createElement('div');
             header.className = 'question-header';
@@ -973,7 +975,7 @@
             optionsGrid.className = 'options-grid';
 
             question.options.forEach((optionText, index) => {
-                const optionLetter = String.fromCharCode(65 + index); // A, B, C, D
+                const optionLetter = String.fromCharCode(65 + index);
                 const optionId = `${question.id}_${optionLetter}`;
 
                 const label = document.createElement('label');
@@ -986,7 +988,11 @@
                     <span class="option-text">${optionLetter}) ${optionText}</span>
                 `;
 
-                label.addEventListener('click', () => handleAnswer(question.id, optionLetter));
+                label.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    handleAnswer(question.id, optionLetter);
+                });
+                
                 optionsGrid.appendChild(label);
             });
 
@@ -1001,117 +1007,147 @@
             return card;
         }
 
-        // Handle answer selection
+        // Handle answer selection with improved scoring
         function handleAnswer(questionId, selectedValue) {
             const questionCard = document.querySelector(`[data-question="${questionId}"]`);
+            if (!questionCard) return;
+            
             const feedback = questionCard.querySelector('.feedback-message');
             const allOptions = questionCard.querySelectorAll('.option-item');
             const correctAnswer = ANSWER_KEY[questionId];
+            const wasAnswered = state.answered.has(questionId);
+            const previousAnswer = state.answers[questionId];
             
+            // Update state counts if re-answering
+            if (wasAnswered) {
+                if (previousAnswer === correctAnswer) {
+                    state.correctCount--;
+                } else {
+                    state.incorrectCount--;
+                }
+                state.answered.delete(questionId);
+            }
+            
+            // Store new answer
+            state.answers[questionId] = selectedValue;
+            state.answered.add(questionId);
+            
+            // Update counts based on correctness
+            const isCorrect = selectedValue === correctAnswer;
+            if (isCorrect) {
+                state.correctCount++;
+                state.questionStatus[questionId] = 'correct';
+            } else {
+                state.incorrectCount++;
+                state.questionStatus[questionId] = 'incorrect';
+            }
+            
+            // Update UI
+            updateQuestionUI(questionCard, allOptions, selectedValue, correctAnswer, isCorrect, feedback);
+            updateStats();
+            
+            // Save state
+            saveState();
+            
+            // Check if all questions are answered
+            if (state.answered.size === 60) {
+                setTimeout(() => showResults(), 500);
+            }
+        }
+
+        // Update question UI
+        function updateQuestionUI(questionCard, allOptions, selectedValue, correctAnswer, isCorrect, feedback) {
             // Remove previous styling
             allOptions.forEach(opt => {
                 opt.classList.remove('selected-correct', 'selected-incorrect', 'correct-highlight');
             });
 
-            // Update state
-            if (!state.answered.has(questionId)) {
-                state.answered.add(questionId);
-            } else {
-                // Adjust counts if re-answering
-                if (state.answers[questionId] === correctAnswer) {
-                    state.correctCount--;
-                } else {
-                    state.incorrectCount--;
-                }
-            }
-
-            state.answers[questionId] = selectedValue;
-
-            // Apply styles and feedback
+            // Apply new styling
             allOptions.forEach(opt => {
                 const input = opt.querySelector('input');
-                if (input.checked) {
-                    if (selectedValue === correctAnswer) {
+                if (input.value === selectedValue) {
+                    if (isCorrect) {
                         opt.classList.add('selected-correct');
-                        questionCard.classList.add('correct');
-                        questionCard.classList.remove('incorrect');
-                        state.correctCount++;
                     } else {
                         opt.classList.add('selected-incorrect');
-                        questionCard.classList.add('incorrect');
-                        questionCard.classList.remove('correct');
-                        state.incorrectCount++;
                     }
                 }
                 
-                // Highlight correct answer if wrong
-                if (selectedValue !== correctAnswer && input.value === correctAnswer) {
+                // Highlight correct answer if user was wrong
+                if (!isCorrect && input.value === correctAnswer) {
                     opt.classList.add('correct-highlight');
                 }
             });
 
+            // Update question card class
+            questionCard.classList.remove('correct', 'incorrect');
+            if (isCorrect) {
+                questionCard.classList.add('correct');
+            } else {
+                questionCard.classList.add('incorrect');
+            }
+
             // Show feedback
             feedback.style.display = 'flex';
-            if (selectedValue === correctAnswer) {
+            if (isCorrect) {
                 feedback.className = 'feedback-message correct';
                 feedback.innerHTML = '<i class="fas fa-check-circle"></i> Correct! Well done!';
             } else {
                 feedback.className = 'feedback-message incorrect';
                 feedback.innerHTML = `<i class="fas fa-times-circle"></i> Incorrect. The correct answer is ${correctAnswer}.`;
             }
-
-            updateStats();
-
-            // Check if all questions answered
-            if (state.answered.size === 60) {
-                setTimeout(() => showResults(), 500);
-            }
         }
 
-        // Update statistics
+        // Update statistics with enhanced calculations
         function updateStats() {
-            const answeredCount = state.answered.size;
-            const percentage = answeredCount > 0 ? Math.round((state.correctCount / answeredCount) * 100) : 0;
+            const score = state.getScore();
             
-            document.getElementById('correctCount').textContent = state.correctCount;
-            document.getElementById('incorrectCount').textContent = state.incorrectCount;
-            document.getElementById('scorePercentage').innerHTML = `${percentage}<small>%</small>`;
-            document.getElementById('progressCount').innerHTML = `${answeredCount}<small>/60</small>`;
+            document.getElementById('correctCount').textContent = score.correct;
+            document.getElementById('incorrectCount').textContent = score.incorrect;
+            document.getElementById('scorePercentage').innerHTML = `${score.percentage}<small>%</small>`;
+            document.getElementById('progressCount').innerHTML = `${score.total}<small>/60</small>`;
             
-            const progressPercentage = Math.round((answeredCount / 60) * 100);
+            const progressPercentage = Math.round((score.total / 60) * 100);
             document.getElementById('progressPercentage').textContent = `${progressPercentage}%`;
             document.getElementById('progressBarFill').style.width = `${progressPercentage}%`;
         }
 
-        // Show results modal
+        // Show results with comprehensive scoring
         function showResults() {
-            const answeredCount = state.answered.size;
-            const unanswered = 60 - answeredCount;
-            const percentage = answeredCount > 0 ? Math.round((state.correctCount / answeredCount) * 100) : 0;
+            const results = state.getFinalResults();
             
-            // Update modal
-            document.getElementById('modalCorrect').textContent = state.correctCount;
-            document.getElementById('modalIncorrect').textContent = state.incorrectCount;
-            document.getElementById('modalCompletion').textContent = `${percentage}%`;
-            document.getElementById('modalUnanswered').textContent = unanswered;
+            // Update modal with all statistics
+            document.getElementById('modalCorrect').textContent = results.correct;
+            document.getElementById('modalIncorrect').textContent = results.incorrect;
+            document.getElementById('modalScore').textContent = results.score;
+            document.getElementById('modalPercentage').textContent = `${results.percentage}%`;
+            document.getElementById('modalUnanswered').textContent = results.unanswered;
+            document.getElementById('modalCompletion').textContent = `${results.completionPercentage}%`;
             
-            // Set message and icon based on performance
+            // Set icon and message based on performance
             const icon = document.getElementById('resultIcon');
             const message = document.getElementById('modalMessage');
             
-            if (percentage >= 90) {
+            if (results.correct === 60) {
                 icon.textContent = '🏆';
-                message.textContent = 'Outstanding! You\'re a PHP expert!';
+                message.textContent = 'Perfect score! You are a PHP master!';
                 createConfetti();
-            } else if (percentage >= 75) {
+            } else if (results.percentage >= 90) {
                 icon.textContent = '🌟';
-                message.textContent = 'Excellent work! You have a strong understanding!';
-            } else if (percentage >= 60) {
+                message.textContent = `Outstanding! You got ${results.correct} out of 60 correct!`;
+                createConfetti();
+            } else if (results.percentage >= 80) {
+                icon.textContent = '🎯';
+                message.textContent = `Excellent work! ${results.correct} correct answers! Keep it up!`;
+            } else if (results.percentage >= 70) {
                 icon.textContent = '📚';
-                message.textContent = 'Good job! Keep practicing to improve!';
-            } else {
+                message.textContent = `Good job! You scored ${results.correct}/60. You're on the right track!`;
+            } else if (results.percentage >= 60) {
                 icon.textContent = '💪';
-                message.textContent = 'Keep learning! Review the material and try again.';
+                message.textContent = `Solid effort! ${results.correct} correct. Keep practicing!`;
+            } else {
+                icon.textContent = '📖';
+                message.textContent = `You got ${results.correct} correct. Review the material and try again!`;
             }
             
             document.getElementById('resultsModal').classList.add('show');
@@ -1122,7 +1158,7 @@
             document.getElementById('resultsModal').classList.remove('show');
         }
 
-        // Reset quiz
+        // Reset quiz with confirmation
         function resetQuiz() {
             if (state.answered.size > 0 && !confirm('Are you sure you want to reset the quiz? All progress will be lost.')) {
                 return;
@@ -1131,9 +1167,35 @@
             // Reset state
             state = {
                 answers: {},
+                questionStatus: {},
                 correctCount: 0,
                 incorrectCount: 0,
-                answered: new Set()
+                answered: new Set(),
+                getScore() {
+                    return {
+                        correct: this.correctCount,
+                        incorrect: this.incorrectCount,
+                        total: this.answered.size,
+                        percentage: this.answered.size > 0 ? Math.round((this.correctCount / this.answered.size) * 100) : 0,
+                        overallPercentage: Math.round((this.correctCount / 60) * 100)
+                    };
+                },
+                getFinalResults() {
+                    const totalAnswered = this.answered.size;
+                    const unanswered = 60 - totalAnswered;
+                    const percentage = totalAnswered > 0 ? Math.round((this.correctCount / totalAnswered) * 100) : 0;
+                    
+                    return {
+                        correct: this.correctCount,
+                        incorrect: this.incorrectCount,
+                        unanswered: unanswered,
+                        totalAnswered: totalAnswered,
+                        percentage: percentage,
+                        overallPercentage: Math.round((this.correctCount / 60) * 100),
+                        score: `${this.correctCount}/60`,
+                        completionPercentage: Math.round((totalAnswered / 60) * 100)
+                    };
+                }
             };
 
             // Reset UI
@@ -1155,9 +1217,58 @@
 
             updateStats();
             closeModal();
+            
+            // Clear saved state
+            localStorage.removeItem('phpQuizState');
         }
 
-        // Create confetti effect
+        // Save state to localStorage
+        function saveState() {
+            const stateToSave = {
+                answers: state.answers,
+                correctCount: state.correctCount,
+                incorrectCount: state.incorrectCount,
+                answered: Array.from(state.answered)
+            };
+            localStorage.setItem('phpQuizState', JSON.stringify(stateToSave));
+        }
+
+        // Load saved state
+        function loadSavedState() {
+            const saved = localStorage.getItem('phpQuizState');
+            if (saved) {
+                try {
+                    const savedState = JSON.parse(saved);
+                    state.answers = savedState.answers || {};
+                    state.correctCount = savedState.correctCount || 0;
+                    state.incorrectCount = savedState.incorrectCount || 0;
+                    state.answered = new Set(savedState.answered || []);
+                    
+                    // Restore UI based on saved state
+                    Object.entries(state.answers).forEach(([questionId, answer]) => {
+                        const questionCard = document.querySelector(`[data-question="${questionId}"]`);
+                        if (questionCard) {
+                            const radio = questionCard.querySelector(`input[value="${answer}"]`);
+                            if (radio) {
+                                radio.checked = true;
+                                const allOptions = questionCard.querySelectorAll('.option-item');
+                                const correctAnswer = ANSWER_KEY[questionId];
+                                const isCorrect = answer === correctAnswer;
+                                const feedback = questionCard.querySelector('.feedback-message');
+                                
+                                updateQuestionUI(questionCard, allOptions, answer, correctAnswer, isCorrect, feedback);
+                            }
+                        }
+                    });
+                    
+                    updateStats();
+                } catch (e) {
+                    console.error('Failed to load saved state:', e);
+                }
+            }
+        }
+
+        // Create confetti effect for high scores
         function createConfetti() {
             const colors = ['#6366f1', '#4f46e5', '#10b981', '#f59e0b', '#ef4444'];
             
@@ -1175,22 +1286,23 @@
             }
         }
 
-        // Close modal when clicking outside
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', initializeQuiz);
+
         document.getElementById('resultsModal').addEventListener('click', (e) => {
             if (e.target.classList.contains('modal')) {
                 closeModal();
             }
         });
 
-        // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && document.getElementById('resultsModal').classList.contains('show')) {
                 closeModal();
             }
         });
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', initializeQuiz);
+        // Auto-save every 30 seconds
+        setInterval(saveState, 30000);
     </script>
 </body>
 </html>
