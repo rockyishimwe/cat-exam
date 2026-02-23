@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ NODE.JS · EXTRAORDINARY MCQ EXAM</title>
+    <!-- Google Fonts for typography excellence -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free) for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b0f1c 0%, #1a1f33 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            padding: 1.5rem;
+        }
+
+        /* main cosmic container */
+        .quiz-universe {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(18, 22, 48, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(90, 150, 255, 0.25);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(160, 200, 255, 0.1) inset;
+            border-radius: 3.5rem;
+            padding: 2.5rem 2.8rem;
+            transition: all 0.3s ease;
+        }
+
+        /* header stats with glassmorphism */
+        .stats-panel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 14, 33, 0.7);
+            border-radius: 120px;
+            padding: 0.9rem 2.2rem;
+            margin-bottom: 2.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 15px 30px -10px #00000080;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #eef5ff;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            font-size: 1.7rem;
+            filter: drop-shadow(0 0 6px currentColor);
+        }
+
+        .correct .stat-icon { color: #2ef0a3; text-shadow: 0 0 12px #2ef0a3; }
+        .wrong .stat-icon { color: #ff6492; text-shadow: 0 0 12px #ff6492; }
+        .total .stat-icon { color: #ffbb4d; text-shadow: 0 0 12px #ffbb4d; }
+
+        .stat-label {
+            font-size: 1rem;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 2.3rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', monospace;
+            line-height: 1.2;
+        }
+
+        .reset-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1.5px solid rgba(140, 190, 255, 0.3);
+            color: #b7cdff;
+            border-radius: 60px;
+            padding: 0.7rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(6px);
+        }
+
+        .reset-btn:hover {
+            border-color: #5effc6;
+            color: #ffffff;
+            background: rgba(80, 210, 255, 0.1);
+            box-shadow: 0 0 18px #4effb580;
+            transform: scale(1.02);
+        }
+
+        /* progress bar - sleek */
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: #1e2544;
+            border-radius: 20px;
+            margin: 2rem 0 1.8rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #74feb0, #3b9eff, #c46eff);
+            border-radius: 20px;
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 0 20px #6ba5ff;
+        }
+
+        /* question grid layout */
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin: 2.5rem 0 1rem;
+        }
+
+        .mcq-card {
+            background: rgba(12, 17, 36, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #2b3660;
+            border-radius: 2.5rem;
+            padding: 1.7rem 1.6rem 1.6rem 1.6rem;
+            transition: 0.25s ease;
+            box-shadow: 0 18px 30px -12px #000000;
+        }
+
+        .mcq-card:hover {
+            border-color: #5f7dcd;
+            transform: translateY(-5px);
+            background: rgba(20, 27, 54, 0.8);
+            box-shadow: 0 30px 40px -10px #000000d0;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.4rem;
+        }
+
+        .q-num {
+            background: #28344e;
+            color: #a9c6ff;
+            border-radius: 40px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border: 1px solid #4a6199;
+        }
+
+        .q-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #e5ecff;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .option {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1.5px solid #2f3c64;
+            border-radius: 50px;
+            padding: 0.75rem 1.2rem;
+            color: #cbd5ff;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 0.98rem;
+        }
+
+        .option i {
+            font-size: 1rem;
+            width: 22px;
+            color: #6276b0;
+        }
+
+        .option:hover:not(.disabled-opt) {
+            background: #1f2b4f;
+            border-color: #6f93ff;
+            color: white;
+            box-shadow: 0 0 10px #3f6eff55;
+        }
+
+        /* selected state */
+        .option.selected {
+            background: linear-gradient(145deg, #2f4792, #1b2b63);
+            border-color: #94bdff;
+            color: white;
+        }
+        .option.selected i {
+            color: #b9dcff;
+        }
+
+        /* correct / wrong marks (shown only after selection via icons) */
+        .correct-mark {
+            color: #2ef0a3 !important;
+        }
+        .wrong-mark {
+            color: #ff6492 !important;
+        }
+        .neutral-icon {
+            color: #4a608f;
+        }
+
+        .option.correct-answer-highlight {
+            background: rgba(46, 240, 163, 0.15);
+            border-color: #2ef0a3;
+        }
+
+        .footer-note {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 2.5rem;
+            color: #7f8ec0;
+            gap: 20px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 25px;
+        }
+        .legend span i {
+            margin-right: 6px;
+        }
+
+        /* responsiveness */
+        @media (max-width: 700px) {
+            .quiz-universe { padding: 1.8rem; }
+            .stats-panel { flex-direction: column; gap: 15px; align-items: stretch; border-radius: 50px; }
+            .reset-btn { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-universe">
+        <!-- top stats: elegant -->
+        <div class="stats-panel">
+            <div class="stat-item correct">
+                <i class="fas fa-check-circle stat-icon"></i>
+                <div>
+                    <div class="stat-label">Correct</div>
+                    <span class="stat-value" id="correct-counter">0</span>
+                </div>
+            </div>
+            <div class="stat-item wrong">
+                <i class="fas fa-times-circle stat-icon"></i>
+                <div>
+                    <div class="stat-label">Wrong</div>
+                    <span class="stat-value" id="wrong-counter">0</span>
+                </div>
+            </div>
+            <div class="stat-item total">
+                <i class="fas fa-globe stat-icon"></i>
+                <div>
+                    <div class="stat-label">Answered</div>
+                    <span class="stat-value" id="answered-counter">0</span>
+                </div>
+            </div>
+            <button class="reset-btn" id="reset-quiz"><i class="fas fa-undo-alt"></i> Reset exam</button>
+        </div>
+        <!-- progress fill -->
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+        </div>
+        <!-- dynamic questions grid injected via js -->
+        <div id="questionsContainer" class="questions-grid"></div>
+
+        <div class="footer-note">
+            <div class="legend">
+                <span><i class="fas fa-circle" style="color:#2ef0a3;"></i> correct</span>
+                <span><i class="fas fa-circle" style="color:#ff6492;"></i> incorrect</span>
+                <span><i class="fas fa-star" style="color:#ffbb4d;"></i> 30 Node.js MCQs</span>
+            </div>
+            <i class="fas fa-bolt" style="opacity: 0.5;"> extraordinary</i>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- 30 NODE.JS MULTIPLE CHOICE QUESTIONS (including your questions & additional) ----------
+            const questions = [
+                // 1-5 from SECTION D + extra combined, covering all topics
+                { question: "Node.js is built on which JavaScript engine?", options: ["SpiderMonkey", "V8", "Chakra", "Rhino"], correct: 1 },
+                { question: "Which core module is used to work with files?", options: ["http", "os", "fs", "path"], correct: 2 },
+                { question: "Which method creates an HTTP server in Node.js?", options: ["http.listen()", "http.createServer()", "http.start()", "http.init()"], correct: 1 },
+                { question: "What command initializes a package.json file?", options: ["npm start", "npm init", "npm install", "npm create"], correct: 1 },
+                { question: "In semantic versioning, which symbol allows minor and patch updates?", options: ["~", "^", ">", "="], correct: 1 }, // ^ is correct for minor+patch
+                // 6-10 Node.js intro & features
+                { question: "Who introduced Node.js and in which year?", options: ["Ryan Dahl in 2009", "Brendan Eich in 1995", "Linus Torvalds in 1991", "James Gosling in 2002"], correct: 0 },
+                { question: "What does non-blocking I/O mean in Node.js?", options: ["I/O operations never throw errors", "Operations run in parallel without waiting", "Code is written synchronously", "No I/O allowed"], correct: 1 },
+                { question: "What is the event loop in Node.js?", options: ["A loop that processes events and callbacks", "A for-loop for events", "A DOM feature", "A timer function"], correct: 0 },
+                { question: "Which of the following is a global object in Node.js?", options: ["window", "document", "global", "navigator"], correct: 2 },
+                { question: "What is REPL in Node.js?", options: ["Read-Eval-Print Loop", "Real Event Process Loop", "Runtime External Protocol Library", "Recursive Error Prevention Layer"], correct: 0 },
+                // 11-15 modules, require
+                { question: "What does require() do in Node.js?", options: ["Imports a module", "Exports a function", "Requires a new thread", "Reads a file"], correct: 0 },
+                { question: "What is module.exports used for?", options: ["Export definitions from a module", "Import npm packages", "Configure the module", "List dependencies"], correct: 0 },
+                { question: "Which is NOT a type of Node.js module?", options: ["Core modules", "Local modules", "Third-party modules", "DOM modules"], correct: 3 },
+                { question: "The fs module is primarily used for...?", options: ["File system operations", "HTTP requests", "Stream encryption", "Fragment scheduling"], correct: 0 },
+                { question: "What is EventEmitter in Node.js?", options: ["A class for handling events", "A global event", "An HTTP module", "A file system event"], correct: 0 },
+                // 16-20 NPM, versioning
+                { question: "What does NPM stand for?", options: ["Node Package Manager", "New Project Manager", "Native Process Module", "Node Project Manager"], correct: 0 },
+                { question: "In npm semantic versioning ~1.2.3 means:", options: ["Patch updates only", "Minor and patch updates", "Major updates only", "Exactly 1.2.3"], correct: 0 },
+                { question: "Which method writes data to a file asynchronously?", options: ["fs.writeFileSync()", "fs.writeFile()", "fs.write()", "fs.writeAsync()"], correct: 1 },
+                { question: "How to parse a URL using the 'url' module?", options: ["url.parse()", "url.decode()", "url.resolve()", "url.format()"], correct: 0 },
+                { question: "Which of the following is a primitive type in Node.js?", options: ["Buffer", "Module", "Process", "String"], correct: 3 },
+                // 21-25 more practical concepts
+                { question: "Which global object is used to handle uncaught exceptions?", options: ["process", "global", "console", "exception"], correct: 0 },
+                { question: "The command `npm install --save-dev` installs packages as:", options: ["devDependencies", "dependencies", "peerDependencies", "optionalDependencies"], correct: 0 },
+                { question: "To include a custom event, which class must be extended?", options: ["EventEmitter", "EventTarget", "NodeEvent", "EventCore"], correct: 0 },
+                { question: "Which HTTP method is idempotent and safe?", options: ["GET", "POST", "DELETE", "PATCH"], correct: 0 },
+                { question: "What does the 'os' module provide?", options: ["Operating system related utilities", "HTTP server", "File Read", "OS console"], correct: 0 },
+                // 26-30 additional Node trivia
+                { question: "Which statement is true about Node.js concurrency?", options: ["It uses multiple threads per request", "It uses event-driven, non-blocking I/O", "It spawns a new process for each request", "It blocks I/O by default"], correct: 1 },
+                { question: "Which of the following returns the current process ID?", options: ["process.pid", "process.id", "global.pid", "os.pid()"], correct: 0 },
+                { question: "How can you include JSON file directly in Node?", options: ["require('./file.json')", "fs.importJSON()", "JSON.parse(readFile())", "import json from 'file'"], correct: 0 },
+                { question: "What is the default scope of variables in a Node.js module?", options: ["Public", "Module-scoped", "Global", "Function-scoped"], correct: 1 },
+                { question: "Node.js is best suited for:", options: ["I/O intensive apps", "CPU intensive apps", "Image processing", "Heavy computation"], correct: 0 },
+            ];
+
+            // current state
+            let userAnswers = new Array(questions.length).fill(null); // store selected option index per question
+            const answeredSet = new Set(); // to track answered indices
+
+            // DOM elements
+            const container = document.getElementById('questionsContainer');
+            const correctSpan = document.getElementById('correct-counter');
+            const wrongSpan = document.getElementById('wrong-counter');
+            const answeredSpan = document.getElementById('answered-counter');
+            const progressFill = document.getElementById('progress-fill');
+            const resetBtn = document.getElementById('reset-quiz');
+
+            // Helper: update counters & progress
+            function updateStats() {
+                let correct = 0;
+                let wrong = 0;
+                for (let i = 0; i < questions.length; i++) {
+                    const ans = userAnswers[i];
+                    if (ans !== null) {
+                        if (ans === questions[i].correct) correct++;
+                        else wrong++;
+                    }
+                }
+                const answered = correct + wrong;
+                correctSpan.innerText = correct;
+                wrongSpan.innerText = wrong;
+                answeredSpan.innerText = answered;
+                const progressPercent = (answered / questions.length) * 100;
+                progressFill.style.width = progressPercent + '%';
+            }
+
+            // render entire grid
+            function renderQuestions() {
+                let html = '';
+                for (let i = 0; i < questions.length; i++) {
+                    const q = questions[i];
+                    const selectedIndex = userAnswers[i];
+                    const isAnswered = selectedIndex !== null;
+                    const isCorrect = isAnswered && (selectedIndex === q.correct);
+                    
+                    // start building card
+                    let optionsHtml = '';
+                    for (let optIdx = 0; optIdx < q.options.length; optIdx++) {
+                        const optionText = q.options[optIdx];
+                        const isSelected = (selectedIndex === optIdx);
+                        // Determine extra classes
+                        let optionClasses = 'option';
+                        if (isSelected) optionClasses += ' selected';
+                        if (isAnswered && optIdx === q.correct) optionClasses += ' correct-answer-highlight'; // optional extra highlight
+                        
+                        // icon logic: if answered, show correct/wrong mark near selected
+                        let iconHtml = '';
+                        if (isAnswered && isSelected) {
+                            if (optIdx === q.correct) {
+                                iconHtml = '<i class="fas fa-check-circle correct-mark"></i>';
+                            } else {
+                                iconHtml = '<i class="fas fa-times-circle wrong-mark"></i>';
+                            }
+                        } else if (isAnswered && optIdx === q.correct) {
+                            // show subtle correct hint for the right answer even if not selected? We'll use star.
+                            iconHtml = '<i class="fas fa-check correct-mark" style="opacity:0.8;"></i>';
+                        } else {
+                            iconHtml = '<i class="far fa-circle neutral-icon"></i>';
+                        }
+
+                        optionsHtml += `
+                            <div class="${optionClasses}" data-qidx="${i}" data-oidx="${optIdx}">
+                                ${iconHtml}
+                                <span>${optionText}</span>
+                            </div>
+                        `;
+                    }
+
+                    html += `
+                        <div class="mcq-card" data-qindex="${i}">
+                            <div class="card-header">
+                                <span class="q-num">${i+1}</span>
+                                <span class="q-text">${q.question}</span>
+                            </div>
+                            <div class="options">
+                                ${optionsHtml}
+                            </div>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+
+                // attach listeners to each .option
+                document.querySelectorAll('.option').forEach(optDiv => {
+                    optDiv.addEventListener('click', (e) => {
+                        const qIdx = parseInt(optDiv.dataset.qidx, 10);
+                        const oIdx = parseInt(optDiv.dataset.oidx, 10);
+                        // if already answered? We allow change (overwrite)
+                        // but we will update state.
+                        handleAnswer(qIdx, oIdx);
+                    });
+                });
+
+                updateStats();
+            }
+
+            // answer handler
+            function handleAnswer(qIdx, optionIdx) {
+                // update userAnswers
+                userAnswers[qIdx] = optionIdx;
+                // re-render to reflect new selection state
+                renderQuestions();
+            }
+
+            // reset everything
+            function resetQuiz() {
+                userAnswers = new Array(questions.length).fill(null);
+                renderQuestions();
+            }
+
+            // initial render
+            renderQuestions();
+
+            // reset button
+            resetBtn.addEventListener('click', resetQuiz);
+        })();
+    </script>
+</body>
+</html>
